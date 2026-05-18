@@ -17,6 +17,7 @@
 - [What is QIA?](#what-is-qia)
 - [Architecture](#architecture)
 - [Quick Start](#quick-start)
+- [🎯 Live Demo & Dashboard](#-live-demo--dashboard)
 - [How Intent Scoring Works](#how-intent-scoring-works)
 - [API Reference](#api-reference)
 - [SDK Integration](#sdk-integration)
@@ -163,6 +164,36 @@ node server.js
 ```
 
 **Server starts at:** `http://localhost:3000`
+
+---
+
+## 🎯 Live Demo & Dashboard
+
+### Test Interface
+**Interactive playground to test the SDK and see intent scoring in action:**
+
+📖 **[→ Open SDK Test Interface](sdk-test.html)**
+
+Features:
+- ✅ Test all 5 intent score levels (0, 25, 30, 55, 85)
+- ✅ Simulate user behaviors (scroll, hesitation, delays)
+- ✅ See real-time scoring breakdowns
+- ✅ Verify blockchain triggers
+- ✅ Copy-paste working SDK code
+
+### Company Dashboard
+**Analytics and API management portal for clients:**
+
+📊 **[→ Open Company Dashboard](dashboard.html)**
+
+Features:
+- ✅ View real-time API usage metrics
+- ✅ Generate and manage API keys
+- ✅ See detailed intent analytics
+- ✅ Manage allowed domains
+- ✅ Access integration guides
+
+---
 
 ### Verify Installation
 
