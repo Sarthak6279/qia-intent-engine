@@ -1,33 +1,105 @@
-# Node modules
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# =============================================
+# .gitignore — QIA Security Configuration
+# Protect: Private keys, credentials, source code
+# =============================================
 
-# Environment variables (IMPORTANT - contains private keys!)
+# ─── ENVIRONMENT & CREDENTIALS ─────────────
 .env
-.env.*
-!.env.example
+.env.local
+.env.*.local
+.env.production.local
+.env.staging.local
 
-# Logs
-logs
-*.log
+# ─── PRIVATE BACKEND SOURCE CODE ──────────
+# Backend is NOT open-sourced - keep it private
+backend/server.js
+backend/intentEngine.js
+backend/apiKey.js
+backend/blockchain.js
+backend/package.json
+backend/package-lock.json
+backend/*.js
 
-# Build outputs
+# ─── UNOBFUSCATED SDK ──────────────────────
+# Only ship minified/obfuscated version
+sdk/qia-sdk.js
+sdk/qia-sdk-unobfuscated.js
+
+# ─── NODE MODULES ─────────────────────────
+node_modules/
+backend/node_modules/
+package-lock.json
+
+# ─── BUILD OUTPUTS ────────────────────────
 dist/
 build/
 out/
+*.js.map
 
-# IDE files
+# ─── IDE & EDITOR FILES ───────────────────
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
-# OS files
+# ─── OS FILES ─────────────────────────────
 .DS_Store
 Thumbs.db
+.DS_Store?
 
-# Optional npm cache
+# ─── LOGS & TEMP FILES ────────────────────
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 .npm
 .eslintcache
+.tmp/
+tmp/
+
+# ─── PRIVATE DOCUMENTATION ────────────────
+PRIVATE_NOTES.md
+SECRET_ENDPOINTS.md
+INTERNAL_ROADMAP.md
+BUSINESS_PLAN.md
+
+# ─── DEPLOYMENT & SECRETS ────────────────
+.env.production
+.env.secrets
+deployment.key
+docker-compose.override.yml
+*.pem
+*.key
+
+# ─── DATABASE FILES ───────────────────────
+*.db
+*.sqlite
+*.sqlite3
+dump.sql
+
+# ─── SMART CONTRACT KEYS ──────────────────
+smart-contract/.env
+smart-contract/private_keys.json
+smart-contract/secrets/
+smart-contract/mnemonic.txt
+
+# ─── COMPILED CONTRACT FILES ──────────────
+artifacts/
+cache/
+typechain/
+
+# ─── PRIVATE CONFIG ───────────────────────
+config.production.js
+config.secrets.js
+
+# ─── EXCEPTIONS (DO COMMIT THESE) ─────────
+!.env.example
+!public/**
+!docs/**
+!README.md
+!CONTRIBUTING.md
+!LICENSE
+!GITHUB_SECURITY.md
+!sdk-test.html
