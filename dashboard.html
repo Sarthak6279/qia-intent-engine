@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QIA Dashboard - Company Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+        }
+
+        .company-info {
+            text-align: right;
+        }
+
+        .company-info p {
+            color: #666;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .company-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            color: #27ae60;
+            margin-top: 8px;
+        }
+
+        .stat-change.negative {
+            color: #e74c3c;
+        }
+
+        /* Tasks Grid */
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .task-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            border-color: #667eea;
+        }
+
+        .task-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .task-card h2 {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .task-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .task-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .task-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Table */
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #eee;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        /* Alert */
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        /* Chart */
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .chart-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-label {
+            width: 100px;
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .chart-value {
+            flex: 1;
+            height: 30px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            margin: 0 15px;
+            position: relative;
+        }
+
+        .chart-percent {
+            padding-left: 15px;
+            color: #667eea;
+            font-weight: 600;
+            min-width: 50px;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            float: right;
+            margin-bottom: 10px;
+        }
+
+        .copy-btn:hover {
+            background: #764ba2;
+        }
+
+        .success-msg {
+            color: #27ae60;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <h1>🎯 QIA Intent Dashboard</h1>
+            </div>
+            <div class="company-info">
+                <p class="company-name" id="companyName">Demo Company</p>
+                <p>API Key: <code>qia_demo123456789</code></p>
+                <p>Plan: Professional | Next Billing: June 18, 2026</p>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <h3>Total Events</h3>
+                <div class="stat-value" id="totalEvents">24,567</div>
+                <div class="stat-change">↑ 12% from last month</div>
+            </div>
+            <div class="stat-card">
+                <h3>High Intent Users</h3>
+                <div class="stat-value" id="highIntentUsers">3,421</div>
+                <div class="stat-change">↑ 28% from last month</div>
+            </div>
+            <div class="stat-card">
+                <h3>Avg Intent Score</h3>
+                <div class="stat-value" id="avgScore">67.3</div>
+                <div class="stat-change">↑ 5.2 points</div>
+            </div>
+            <div class="stat-card">
+                <h3>Conversion Rate</h3>
+                <div class="stat-value" id="conversionRate">18.5%</div>
+                <div class="stat-change">↑ 3.2% from last month</div>
+            </div>
+        </div>
+
+        <!-- Tasks -->
+        <h2 style="color: white; margin-bottom: 20px; font-size: 24px;">🚀 5 Key Tasks</h2>
+        
+        <div class="tasks-grid">
+            <!-- Task 1: View API Usage -->
+            <div class="task-card">
+                <div class="task-icon">📊</div>
+                <h2>View API Usage</h2>
+                <p>Monitor your real-time API requests, bandwidth, and rate limit status. See what endpoints are being used most.</p>
+                <button class="task-button" onclick="openModal('task1')">View Usage →</button>
+            </div>
+
+            <!-- Task 2: Generate API Key -->
+            <div class="task-card">
+                <div class="task-icon">🔑</div>
+                <h2>Generate API Key</h2>
+                <p>Create new API keys for different projects or domains. Revoke old keys instantly. Manage all keys from one place.</p>
+                <button class="task-button" onclick="openModal('task2')">Generate Key →</button>
+            </div>
+
+            <!-- Task 3: View Analytics -->
+            <div class="task-card">
+                <div class="task-icon">📈</div>
+                <h2>View Analytics</h2>
+                <p>See detailed intent scoring breakdowns, user behavior patterns, and conversion funnel analysis in real-time.</p>
+                <button class="task-button" onclick="openModal('task3')">View Analytics →</button>
+            </div>
+
+            <!-- Task 4: Manage Domains -->
+            <div class="task-card">
+                <div class="task-icon">🌐</div>
+                <h2>Manage Domains</h2>
+                <p>Register domains where your API key can be used. Prevent key sharing and ensure keys only work on your sites.</p>
+                <button class="task-button" onclick="openModal('task4')">Manage Domains →</button>
+            </div>
+
+            <!-- Task 5: View Documentation -->
+            <div class="task-card">
+                <div class="task-icon">📚</div>
+                <h2>SDK Integration</h2>
+                <p>Get the latest SDK, view integration examples, and access webhook documentation. Everything to get started.</p>
+                <button class="task-button" onclick="openModal('task5')">View Docs →</button>
+            </div>
+        </div>
+
+        <!-- Modals -->
+
+        <!-- Task 1: View API Usage -->
+        <div id="task1Modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>📊 API Usage</h2>
+                    <button class="close-btn" onclick="closeModal('task1')">&times;</button>
+                </div>
+
+                <div class="alert alert-info">
+                    📌 You have 500,000 API requests per month. Currently used: 267,832 (53.6%)
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">API Requests by Endpoint</div>
+                    <div class="chart-bar">
+                        <div class="chart-label">POST /track</div>
+                        <div class="chart-value" style="width: 85%;"></div>
+                        <div class="chart-percent">215,000 (85%)</div>
+                    </div>
+                    <div class="chart-bar">
+                        <div class="chart-label">POST /track/batch</div>
+                        <div class="chart-value" style="width: 12%;"></div>
+                        <div class="chart-percent">32,000 (12%)</div>
+                    </div>
+                    <div class="chart-bar">
+                        <div class="chart-label">GET /health</div>
+                        <div class="chart-value" style="width: 3%;"></div>
+                        <div class="chart-percent">8,000 (3%)</div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Requests</th>
+                                <th>Bandwidth</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>May 18, 2026</td>
+                                <td>12,345</td>
+                                <td>2.3 MB</td>
+                                <td><span class="badge badge-success">✓ OK</span></td>
+                            </tr>
+                            <tr>
+                                <td>May 17, 2026</td>
+                                <td>11,856</td>
+                                <td>2.1 MB</td>
+                                <td><span class="badge badge-success">✓ OK</span></td>
+                            </tr>
+                            <tr>
+                                <td>May 16, 2026</td>
+                                <td>10,234</td>
+                                <td>1.9 MB</td>
+                                <td><span class="badge badge-success">✓ OK</span></td>
+                            </tr>
+                            <tr>
+                                <td>May 15, 2026</td>
+                                <td>9,567</td>
+                                <td>1.8 MB</td>
+                                <td><span class="badge badge-success">✓ OK</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p style="color: #666; font-size: 14px; margin-top: 20px;">
+                    💡 <strong>Tip:</strong> Upgrade to "Enterprise" plan to get 5M requests/month. Contact sales@qia.com
+                </p>
+            </div>
+        </div>
+
+        <!-- Task 2: Generate API Key -->
+        <div id="task2Modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>🔑 Generate New API Key</h2>
+                    <button class="close-btn" onclick="closeModal('task2')">&times;</button>
+                </div>
+
+                <form onsubmit="generateKey(event)">
+                    <div class="form-group">
+                        <label>Key Name (for your reference)</label>
+                        <input type="text" placeholder="e.g., Production Main Site" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Environment</label>
+                        <select required>
+                            <option>Development</option>
+                            <option>Staging</option>
+                            <option>Production</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Rate Limit (requests/minute)</label>
+                        <input type="number" placeholder="e.g., 1000" value="1000" required>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Generate Key</button>
+                </form>
+
+                <div id="keyResult" style="display: none; margin-top: 20px;">
+                    <div class="alert alert-success">
+                        ✅ API Key generated successfully!
+                    </div>
+
+                    <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode('qia_newkey1234567890abcd')">Copy</button>
+                    </div>
+
+                    <p style="color: #666; font-size: 13px; margin-top: 10px;">
+                        🔒 Save this key now. You won't be able to see it again!
+                    </p>
+                </div>
+
+                <h3 style="margin-top: 30px; margin-bottom: 15px; color: #333;">Your API Keys</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Environment</th>
+                                <th>Created</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Main Website</td>
+                                <td>Production</td>
+                                <td>Jan 15, 2026</td>
+                                <td><span class="badge badge-active">Active</span></td>
+                                <td><button style="background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">Revoke</button></td>
+                            </tr>
+                            <tr>
+                                <td>Testing</td>
+                                <td>Development</td>
+                                <td>Mar 20, 2026</td>
+                                <td><span class="badge badge-active">Active</span></td>
+                                <td><button style="background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">Revoke</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task 3: View Analytics -->
+        <div id="task3Modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>📈 Intent Analytics</h2>
+                    <button class="close-btn" onclick="closeModal('task3')">&times;</button>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Intent Score Distribution</div>
+                    <div class="chart-bar">
+                        <div class="chart-label">0-24 (Low)</div>
+                        <div class="chart-value" style="width: 25%; background: linear-gradient(90deg, #e74c3c, #e74c3c);"></div>
+                        <div class="chart-percent">5,234 (21%)</div>
+                    </div>
+                    <div class="chart-bar">
+                        <div class="chart-label">25-49 (Medium)</div>
+                        <div class="chart-value" style="width: 32%; background: linear-gradient(90deg, #f39c12, #f39c12);"></div>
+                        <div class="chart-percent">7,896 (32%)</div>
+                    </div>
+                    <div class="chart-bar">
+                        <div class="chart-label">50-74 (High)</div>
+                        <div class="chart-value" style="width: 28%; background: linear-gradient(90deg, #3498db, #3498db);"></div>
+                        <div class="chart-percent">6,845 (28%)</div>
+                    </div>
+                    <div class="chart-bar">
+                        <div class="chart-label">75-100 (Very High)</div>
+                        <div class="chart-value" style="width: 15%; background: linear-gradient(90deg, #27ae60, #27ae60);"></div>
+                        <div class="chart-percent">3,421 (15%)</div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Signal Type</th>
+                                <th>Detected Events</th>
+                                <th>Conversion Impact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Wallet Connection Delay</td>
+                                <td>8,234</td>
+                                <td>+30 points</td>
+                            </tr>
+                            <tr>
+                                <td>High Scroll Depth (70%+)</td>
+                                <td>12,567</td>
+                                <td>+25 points</td>
+                            </tr>
+                            <tr>
+                                <td>Button Hesitation (2s+)</td>
+                                <td>4,891</td>
+                                <td>+30 points</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task 4: Manage Domains -->
+        <div id="task4Modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>🌐 Manage Allowed Domains</h2>
+                    <button class="close-btn" onclick="closeModal('task4')">&times;</button>
+                </div>
+
+                <div class="alert alert-info">
+                    🔒 Your API key only works on registered domains. This prevents key sharing and unauthorized usage.
+                </div>
+
+                <form onsubmit="addDomain(event)">
+                    <div class="form-group">
+                        <label>Add New Domain</label>
+                        <input type="text" placeholder="e.g., https://mysite.com or localhost:3000" required>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Add Domain</button>
+                </form>
+
+                <h3 style="margin-top: 30px; margin-bottom: 15px; color: #333;">Registered Domains</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Domain</th>
+                                <th>Added</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>https://mysite.com</td>
+                                <td>Jan 15, 2026</td>
+                                <td><span class="badge badge-success">✓ Verified</span></td>
+                                <td><button style="background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">Remove</button></td>
+                            </tr>
+                            <tr>
+                                <td>https://app.mysite.com</td>
+                                <td>Mar 10, 2026</td>
+                                <td><span class="badge badge-success">✓ Verified</span></td>
+                                <td><button style="background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">Remove</button></td>
+                            </tr>
+                            <tr>
+                                <td>localhost:3000</td>
+                                <td>May 1, 2026</td>
+                                <td><span class="badge badge-success">✓ Verified</span></td>
+                                <td><button style="background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">Remove</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p style="color: #666; font-size: 14px; margin-top: 20px;">
+                    💡 Add all domains where you'll use this API key. Request will be rejected if sent from unknown domain.
+                </p>
+            </div>
+        </div>
+
+        <!-- Task 5: View Documentation -->
+        <div id="task5Modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>📚 SDK & Integration</h2>
+                    <button class="close-btn" onclick="closeModal('task5')">&times;</button>
+                </div>
+
+                <h3 style="margin-top: 0; color: #333;">Quick Start (1 Minute)</h3>
+
+                <p style="color: #666; font-size: 14px; margin-bottom: 15px;">
+                    Add this single line to your website:
+                </p>
+
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode('&lt;script src=&quot;https://cdn.qia.com/sdk.min.js?key=qia_demo123456789&quot;&gt;&lt;/script&gt;')">Copy</button>
+                    <div style="clear: both;">&lt;script src="https://cdn.qia.com/sdk.min.js?key=qia_demo123456789"&gt;&lt;/script&gt;</div>
+                </div>
+
+                <h3 style="color: #333; margin-top: 30px;">Track User Behavior</h3>
+
+                <p style="color: #666; font-size: 14px; margin-bottom: 15px;">
+                    Initialize and start tracking:
+                </p>
+
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode('QIA.track({ event: &quot;button_click&quot;, page: &quot;/checkout&quot;, delay: 3.5, scrollDepth: 75 });')">Copy</button>
+                    <pre style="margin: 0;">QIA.track({
+  event: 'button_click',
+  page: '/checkout',
+  delay: 3.5,
+  scrollDepth: 75
+});</pre>
+                </div>
+
+                <h3 style="color: #333; margin-top: 30px;">Documentation Links</h3>
+
+                <div style="margin: 20px 0;">
+                    <p style="margin-bottom: 10px;"><a href="public/SDK_INTEGRATION.md" style="color: #667eea; text-decoration: none; font-weight: 600;">📖 SDK Integration Guide</a></p>
+                    <p style="margin-bottom: 10px;"><a href="public/API_REFERENCE.md" style="color: #667eea; text-decoration: none; font-weight: 600;">📊 API Reference</a></p>
+                    <p style="margin-bottom: 10px;"><a href="public/EXAMPLES.md" style="color: #667eea; text-decoration: none; font-weight: 600;">💻 Code Examples</a></p>
+                    <p><a href="sdk-test.html" style="color: #667eea; text-decoration: none; font-weight: 600;">🧪 SDK Test Playground</a></p>
+                </div>
+
+                <h3 style="color: #333; margin-top: 30px;">Support</h3>
+
+                <p style="color: #666; font-size: 14px;">
+                    📧 <strong>Email:</strong> support@qia-analytics.com<br>
+                    💬 <strong>Chat:</strong> Available during business hours<br>
+                    🐛 <strong>Issues:</strong> GitHub Issues on our repository
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+function openModal(id) {
+    var modal = document.getElementById(id + 'Modal');
+    if (modal) modal.classList.add('active');
+}
+
+function closeModal(id) {
+    var modal = document.getElementById(id + 'Modal');
+    if (modal) modal.classList.remove('active');
+}
+
+function generateKey(e) {
+    e.preventDefault();
+    var resultDiv = document.getElementById('keyResult');
+    if (resultDiv) {
+        resultDiv.style.display = 'block';
+        resultDiv.scrollIntoView({behavior: 'smooth', block: 'center'});
+    }
+}
+
+function addDomain(e) {
+    e.preventDefault();
+    alert('Domain added successfully!');
+}
+
+function copyCode(text) {
+    navigator.clipboard.writeText(text);
+    alert('Copied to clipboard!');
+}
+
+// Close modals on outside click
+var modals = document.querySelectorAll('.modal');
+for (var i = 0; i < modals.length; i++) {
+    modals[i].addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('active');
+        }
+    });
+}
+    </script>
+</body>
+</html>
