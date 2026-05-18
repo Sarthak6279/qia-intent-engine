@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QIA SDK — Live Test</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+
+    header p {
+      opacity: 0.9;
+      font-size: 14px;
+    }
+
+    .content {
+      padding: 40px;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .section h2 {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 10px;
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-success {
+      background: #48bb78;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #38a169;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(72, 187, 120, 0.4);
+    }
+
+    .btn-danger {
+      background: #f56565;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #e53e3e;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(245, 101, 101, 0.4);
+    }
+
+    .console {
+      background: #1a202c;
+      color: #48bb78;
+      padding: 20px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      max-height: 300px;
+      overflow-y: auto;
+      line-height: 1.6;
+    }
+
+    .console-line {
+      margin: 5px 0;
+    }
+
+    .log-blue {
+      color: #63b3ed;
+    }
+
+    .log-green {
+      color: #48bb78;
+    }
+
+    .log-yellow {
+      color: #ecc94b;
+    }
+
+    .log-red {
+      color: #f56565;
+    }
+
+    .log-gray {
+      color: #a0aec0;
+    }
+
+    .result-box {
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 15px;
+      margin-top: 15px;
+      font-size: 13px;
+    }
+
+    .result-box pre {
+      background: #edf2f7;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-ok {
+      background: #c6f6d5;
+      color: #22543d;
+    }
+
+    .status-error {
+      background: #fed7d7;
+      color: #742a2a;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .scroll-area {
+      height: 150px;
+      overflow-y: auto;
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .scroll-area p {
+      margin: 10px 0;
+      line-height: 1.8;
+    }
+
+    .hover-button {
+      background: #667eea;
+      color: white;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .hover-button:hover {
+      background: #5568d3;
+    }
+
+    .hint {
+      background: #edf2f7;
+      border-left: 4px solid #667eea;
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      margin-top: 10px;
+      color: #2d3748;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>🎯 QIA SDK — Live Test</h1>
+    <p>Real-time behavioral prediction engine</p>
+  </header>
+
+  <div class="content">
+
+    <!-- SETUP SECTION -->
+    <div class="section">
+      <h2>1️⃣ Setup & Initialization</h2>
+      <p style="margin-bottom: 15px; color: #666;">First, initialize the SDK with your API key and backend URL.</p>
+      
+      <div>
+        <label style="display: block; margin-bottom: 8px; font-weight: 600;">Backend URL:</label>
+        <input type="text" id="backendUrl" value="http://localhost:3000" placeholder="http://localhost:3000">
+      </div>
+
+      <div>
+        <label style="display: block; margin-bottom: 8px; font-weight: 600;">API Key:</label>
+        <input type="text" id="apiKey" value="qia_demo123456789" placeholder="qia_demo123456789">
+      </div>
+
+      <button class="btn-primary" onclick="initializeSDK()">✅ Initialize SDK</button>
+      <button class="btn-danger" onclick="clearConsole()" style="margin-left: 10px;">🗑️ Clear Console</button>
+    </div>
+
+    <!-- QUICK TEST SECTION -->
+    <div class="section">
+      <h2>2️⃣ Quick Test Scenarios</h2>
+      <p style="margin-bottom: 15px; color: #666;">Click any button to test a scoring scenario.</p>
+
+      <div class="button-grid">
+        <button class="btn-success" onclick="testScenario(0)">Score: 0</button>
+        <button class="btn-success" onclick="testScenario(25)">Score: 25</button>
+        <button class="btn-success" onclick="testScenario(30)">Score: 30</button>
+        <button class="btn-success" onclick="testScenario(55)">Score: 55</button>
+        <button class="btn-success" onclick="testScenario(85)">Score: 85 🔥</button>
+      </div>
+
+      <div class="hint">
+        💡 <strong>What's happening:</strong> Each button triggers a different signal combination to reach that score.
+      </div>
+    </div>
+
+    <!-- TRACKING SECTION -->
+    <div class="section">
+      <h2>3️⃣ Manual Tracking</h2>
+
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 8px; font-weight: 600;">Event Name:</label>
+        <input type="text" id="eventName" value="wallet_connect" placeholder="e.g., wallet_connect">
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 8px; font-weight: 600;">Connection Delay (seconds):</label>
+        <input type="number" id="delayValue" value="0" placeholder="0" min="0">
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 8px; font-weight: 600;">Scroll Depth (%):</label>
+        <input type="number" id="scrollValue" value="0" placeholder="0" min="0" max="100">
+      </div>
+
+      <button class="btn-primary" onclick="trackCustomEvent()">📤 Send Track Event</button>
+    </div>
+
+    <!-- SCROLL DEPTH SECTION -->
+    <div class="section">
+      <h2>4️⃣ Scroll Depth Tracking</h2>
+      <p style="margin-bottom: 15px; color: #666;">Scroll down in this box, then click the button to track your scroll depth.</p>
+
+      <div class="scroll-area">
+        <p>📖 Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <p>🎯 Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <p>🚀 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+        <p>💡 Nisi ut aliquip ex ea commodo consequat duis aute irure dolor.</p>
+        <p>⭐ Excepteur sint occaecat cupidatat non proident sunt in culpa qui.</p>
+      </div>
+
+      <button class="btn-primary" onclick="trackScrollDepth()">📊 Track Scroll Depth</button>
+    </div>
+
+    <!-- HOVER SECTION -->
+    <div class="section">
+      <h2>5️⃣ Hover Hesitation Tracking</h2>
+      <p style="margin-bottom: 15px; color: #666;">Hover over the button for 2+ seconds to trigger hesitation tracking.</p>
+
+      <div id="hoverButton" class="hover-button">⏱️ Hover here for 2 seconds...</div>
+
+      <div class="hint">
+        💡 <strong>What's happening:</strong> When you hover for 2+ seconds, the SDK automatically tracks hesitation at the action point.
+      </div>
+    </div>
+
+    <!-- API KEY GENERATION -->
+    <div class="section">
+      <h2>6️⃣ Generate API Key</h2>
+      <p style="margin-bottom: 15px; color: #666;">Generate a new API key for testing.</p>
+
+      <div>
+        <label style="display: block; margin-bottom: 8px; font-weight: 600;">Company Name:</label>
+        <input type="text" id="companyName" value="test-company" placeholder="your-company-name">
+      </div>
+
+      <button class="btn-primary" onclick="generateKey()">🔑 Generate API Key</button>
+    </div>
+
+    <!-- HEALTH CHECK -->
+    <div class="section">
+      <h2>7️⃣ Health Check</h2>
+      <p style="margin-bottom: 15px; color: #666;">Check if your backend is running and healthy.</p>
+
+      <button class="btn-primary" onclick="healthCheck()">❤️ Check Backend Health</button>
+    </div>
+
+    <!-- CONSOLE OUTPUT -->
+    <div class="section">
+      <h2>📋 Console Output</h2>
+      <div class="console" id="console">
+        <div class="console-line log-gray">&gt; Ready. Click Initialize SDK to start.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Load the SDK -->
+<script src="sdk/qia-sdk.js"></script>
+
+<script>
+// Console logging helper
+function log(message, color = 'gray') {
+  const console = document.getElementById('console');
+  const line = document.createElement('div');
+  line.className = `console-line log-${color}`;
+  line.textContent = `> ${message}`;
+  console.appendChild(line);
+  console.scrollTop = console.scrollHeight;
+}
+
+function clearConsole() {
+  document.getElementById('console').innerHTML = '';
+  log('Console cleared.', 'gray');
+}
+
+// Initialize SDK
+async function initializeSDK() {
+  const apiKey = document.getElementById('apiKey').value;
+  const baseUrl = document.getElementById('backendUrl').value;
+
+  if (!apiKey) {
+    log('❌ API key is required', 'red');
+    return;
+  }
+
+  const result = QIA.init({
+    apiKey,
+    appName: 'sdk-test',
+    baseUrl
+  });
+
+  if (result) {
+    log(`✅ SDK initialized with backend: ${baseUrl}`, 'green');
+  } else {
+    log('❌ Failed to initialize SDK', 'red');
+  }
+}
+
+// Test scenarios
+async function testScenario(targetScore) {
+  if (!QIA.initialized) {
+    log('❌ Initialize SDK first!', 'red');
+    return;
+  }
+
+  let event = 'page_view';
+  let delay = null;
+  let scrollDepth = null;
+
+  if (targetScore === 0) {
+    event = 'page_view';
+  } else if (targetScore === 25) {
+    event = 'scroll_depth';
+    scrollDepth = 80;
+  } else if (targetScore === 30) {
+    event = 'wallet_connect';
+    delay = 5;
+  } else if (targetScore === 55) {
+    event = 'wallet_connect';
+    delay = 5;
+    scrollDepth = 80;
+  } else if (targetScore === 85) {
+    event = 'confirm_hesitation';
+    delay = 5;
+    scrollDepth = 80;
+  }
+
+  log(`▶ Testing scenario: target score ~${targetScore}`, 'blue');
+
+  const result = await QIA.track({
+    event,
+    delay,
+    scrollDepth,
+    page: '/test-scenario'
+  });
+
+  if (result.error) {
+    log(`❌ Error: ${result.error}`, 'red');
+    return;
+  }
+
+  log(`Score: ${result.intentScore}/100`, result.intentScore >= 75 ? 'yellow' : 'green');
+  log(`Trigger: ${result.trigger ? '✅ YES' : '❌ NO'}`, result.trigger ? 'yellow' : 'gray');
+  log(`Recommendation: ${result.recommendation}`, 'gray');
+
+  if (result.trigger && result.blockchain) {
+    log(`⚡ BLOCKCHAIN TRIGGERED!`, 'yellow');
+    log(`🔗 TX: ${result.blockchain.txHash}`, 'green');
+    log(`   Gas: ${result.blockchain.gasUsed} | Block: ${result.blockchain.blockNumber}`, 'gray');
+  }
+}
+
+// Track custom event
+async function trackCustomEvent() {
+  if (!QIA.initialized) {
+    log('❌ Initialize SDK first!', 'red');
+    return;
+  }
+
+  const event = document.getElementById('eventName').value;
+  const delay = parseFloat(document.getElementById('delayValue').value) || null;
+  const scrollDepth = parseInt(document.getElementById('scrollValue').value) || null;
+
+  if (!event) {
+    log('❌ Event name is required', 'red');
+    return;
+  }
+
+  log(`📤 Tracking: ${event}`, 'blue');
+  const result = await QIA.track({ event, delay, scrollDepth, page: '/manual' });
+
+  if (result.error) {
+    log(`❌ Error: ${result.error}`, 'red');
+  } else {
+    log(`✅ Score: ${result.intentScore}`, result.intentScore >= 75 ? 'yellow' : 'green');
+  }
+}
+
+// Track scroll depth
+async function trackScrollDepth() {
+  if (!QIA.initialized) {
+    log('❌ Initialize SDK first!', 'red');
+    return;
+  }
+
+  log('📊 Tracking scroll depth...', 'blue');
+  await QIA.trackScrollDepth('/scroll-test');
+}
+
+// Hover hesitation tracking
+function setupHoverTracking() {
+  const btn = document.getElementById('hoverButton');
+  let timer;
+
+  btn.addEventListener('mouseenter', () => {
+    timer = setTimeout(async () => {
+      if (QIA.initialized) {
+        log('⏱️ Hover hesitation detected!', 'yellow');
+        await QIA.trackHesitation('/hover-test');
+      } else {
+        log('❌ Initialize SDK first!', 'red');
+      }
+    }, 2000);
+  });
+
+  btn.addEventListener('mouseleave', () => {
+    clearTimeout(timer);
+  });
+}
+
+// Generate API key
+async function generateKey() {
+  if (!QIA.initialized) {
+    log('❌ Initialize SDK first!', 'red');
+    return;
+  }
+
+  const company = document.getElementById('companyName').value;
+  if (!company) {
+    log('❌ Company name is required', 'red');
+    return;
+  }
+
+  log(`🔑 Generating key for: ${company}`, 'blue');
+  const result = await QIA.generateApiKey(company);
+
+  if (result.error) {
+    log(`❌ Error: ${result.error}`, 'red');
+  } else {
+    log(`✅ New key: ${result.apiKey}`, 'green');
+  }
+}
+
+// Health check
+async function healthCheck() {
+  if (!QIA.initialized) {
+    log('❌ Initialize SDK first!', 'red');
+    return;
+  }
+
+  log('❤️ Checking backend health...', 'blue');
+  const result = await QIA.healthCheck();
+
+  if (result.error) {
+    log(`❌ Backend unreachable`, 'red');
+  } else {
+    log(`✅ Backend is healthy: ${result.status}`, 'green');
+  }
+}
+
+// Setup hover tracking on page load
+setupHoverTracking();
+
+// Log ready
+log('🚀 SDK test page loaded. Initialize SDK to start testing.', 'green');
+</script>
+
+</body>
+</html>
