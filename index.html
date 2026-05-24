@@ -1,0 +1,3031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QIA — Real-Time Intent Analytics Platform</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap');
+
+/* ══════════════════════════════════════════════
+   ANTIGRAVITY DESIGN SYSTEM
+   Pure black · Google-spectrum gradients · Clean minimal
+   Inspired by antigravity.google
+   ══════════════════════════════════════════════ */
+:root {
+  /* Backgrounds — pure black like Antigravity */
+  --bg-base:        rgba(5, 5, 7, 0.82);
+  --bg-surface:     rgba(12, 12, 16, 0.85);
+  --bg-elevated:    rgba(19, 19, 26, 0.85);
+  --bg-card:        rgba(255,255,255,0.03);
+  --bg-card-hover:  rgba(255,255,255,0.06);
+  --bg-nav:         rgba(5,5,7,0.88);
+  --bg-darker:      #050507;
+  --bg-dark:        #0c0c10;
+
+  /* Google brand spectrum — the Antigravity soul */
+  --g-blue:   #4285F4;
+  --g-red:    #EA4335;
+  --g-yellow: #FBBC04;
+  --g-green:  #34A853;
+
+  /* Primary accent — Google blue */
+  --primary:        #4285F4;
+  --primary-glow:   rgba(66,133,244,0.20);
+  --primary-hover:  #5b9cf6;
+
+  /* Secondary — Google teal/green */
+  --secondary:      #34A853;
+  --secondary-glow: rgba(52,168,83,0.15);
+
+  /* Semantic */
+  --green:          #34A853;
+  --green-glow:     rgba(52,168,83,0.15);
+  --amber:          #FBBC04;
+  --amber-glow:     rgba(251,188,4,0.15);
+  --red:            #EA4335;
+  --red-glow:       rgba(234,67,53,0.15);
+
+  /* Gradient — Google 4-color spectrum */
+  --grad-google:    linear-gradient(90deg, #4285F4 0%, #34A853 33%, #FBBC04 66%, #EA4335 100%);
+  --grad-primary:   linear-gradient(135deg, #4285F4 0%, #34A853 100%);
+  --grad-blue-teal: linear-gradient(135deg, #4285F4 0%, #00BCD4 100%);
+  --grad-text:      linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.7) 100%);
+
+  /* Text hierarchy */
+  --white:          #ffffff;
+  --text-100:       #ffffff;
+  --text-main:      rgba(255,255,255,0.90);
+  --text-80:        rgba(255,255,255,0.80);
+  --text-muted:     rgba(255,255,255,0.55);
+  --text-60:        rgba(255,255,255,0.60);
+  --text-dark:      rgba(255,255,255,0.38);
+  --text-40:        rgba(255,255,255,0.40);
+  --text-20:        rgba(255,255,255,0.20);
+
+  /* Legacy aliases */
+  --navy:           rgba(12, 12, 16, 0.85);
+  --navy2:          rgba(5, 5, 7, 0.82);
+  --blue2:          #34A853;
+  --blue3:          #4285F4;
+  --green2:         #34A853;
+  --gray2:          rgba(255,255,255,0.88);
+  --gray3:          rgba(255,255,255,0.65);
+  --gray4:          rgba(255,255,255,0.42);
+  --gray5:          rgba(255,255,255,0.28);
+
+  /* Borders — razor thin, architectural */
+  --border:         rgba(255,255,255,0.08);
+  --border-mid:     rgba(255,255,255,0.13);
+  --border-hover:   rgba(255,255,255,0.18);
+  --border-accent:  rgba(66,133,244,0.40);
+
+  /* Radius — Antigravity uses gentle but not excessive radius */
+  --r-xs:   4px;
+  --r-sm:   8px;
+  --r-md:   12px;
+  --r-lg:   16px;
+  --r-xl:   24px;
+  --r-2xl:  32px;
+
+  /* Typography */
+  --font-sans:    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  /* Elevation */
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.6);
+  --shadow:      0 8px 40px rgba(0,0,0,0.7);
+  --shadow-lg:   0 24px 80px rgba(0,0,0,0.9);
+  --shadow-glow: 0 0 48px rgba(66,133,244,0.10);
+  --shadow-cyan: 0 0 32px rgba(66,244,244,0.15);
+
+  /* Transition */
+  --ease:        cubic-bezier(0.16, 1, 0.3, 1);
+  --transition:  all 0.25s var(--ease);
+}
+
+/* ── FUTURISTIC ANIMATIONS ── */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 32px rgba(66,244,244,0.15), inset 0 0 32px rgba(66,244,244,0.05); }
+  50% { box-shadow: 0 0 48px rgba(66,244,244,0.25), inset 0 0 48px rgba(66,244,244,0.08); }
+}
+
+@keyframes float-up {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes particle-float {
+  0%, 100% { opacity: 0; transform: translateY(0) translateX(0); }
+  50% { opacity: 0.5; }
+}
+
+@keyframes neon-glow {
+  0%, 100% { text-shadow: 0 0 10px rgba(66,244,244,0.5), 0 0 20px rgba(66,244,244,0.3); }
+  50% { text-shadow: 0 0 20px rgba(66,244,244,0.8), 0 0 40px rgba(66,244,244,0.5); }
+}
+
+/* ── CUSTOM CURSOR ── */
+.cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: rgba(66,133,244,0.9);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.15s ease, height 0.15s ease, background 0.15s ease;
+  mix-blend-mode: screen;
+}
+.cursor-ring {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid rgba(66,133,244,0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+  mix-blend-mode: screen;
+}
+.cursor-dot.hovering {
+  width: 14px;
+  height: 14px;
+  background: rgba(52,168,83,0.9);
+}
+.cursor-ring.hovering {
+  width: 48px;
+  height: 48px;
+  border-color: rgba(52,168,83,0.5);
+}
+@media (max-width: 768px) {
+  .cursor-dot, .cursor-ring { display: none !important; }
+}
+body { cursor: none; }
+body a, body button, body [onclick], body input, body select, body textarea { cursor: none; }
+
+/* ── ENHANCED SCROLL REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+.stagger-reveal > * {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.stagger-reveal.visible > *:nth-child(1) { transition-delay: 0.05s; }
+.stagger-reveal.visible > *:nth-child(2) { transition-delay: 0.12s; }
+.stagger-reveal.visible > *:nth-child(3) { transition-delay: 0.19s; }
+.stagger-reveal.visible > *:nth-child(4) { transition-delay: 0.26s; }
+.stagger-reveal.visible > *:nth-child(5) { transition-delay: 0.33s; }
+.stagger-reveal.visible > *:nth-child(6) { transition-delay: 0.4s; }
+.stagger-reveal.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── PARALLAX TILT ── */
+[data-parallax] {
+  transition: transform 0.3s ease;
+}
+
+/* ── RESET ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-base);
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+  font-size: 15px;
+}
+
+a { text-decoration: none; color: inherit; }
+
+::selection {
+  background: rgba(66,133,244,0.30);
+  color: #fff;
+}
+
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.20); }
+
+/* ── LAYOUT ── */
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.section { padding: 120px 0; position: relative; }
+.section-sm { padding: 88px 0; position: relative; }
+.text-center { text-align: center; }
+.flex { display: flex; }
+.grid { display: grid; }
+
+/* ── TYPOGRAPHY — Antigravity Bold Clean Style ── */
+.h1 {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 7vw, 88px);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.04em;
+  color: var(--text-100);
+}
+.h2 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4.5vw, 58px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: var(--text-100);
+}
+.h3 {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--text-100);
+}
+.h4 {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-80);
+}
+.body-lg { font-size: 18px; color: var(--text-60); line-height: 1.7; }
+.body-md { font-size: 15px; color: var(--text-muted); line-height: 1.65; }
+.body-sm { font-size: 13px; color: var(--text-dark); line-height: 1.6; }
+
+/* Google-spectrum gradient text */
+.accent {
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.accent-google {
+  background: var(--grad-google);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.green-text { color: var(--g-green) !important; }
+.amber-text { color: var(--g-yellow) !important; }
+.muted { color: var(--text-muted); }
+
+/* ── LABEL CHIP ── */
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: rgba(66,133,244,0.10);
+  border: 1px solid rgba(66,133,244,0.22);
+  border-radius: 100px;
+  padding: 5px 14px;
+  margin-bottom: 28px;
+}
+
+/* ── BUTTONS — Antigravity clean pill style ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 24px;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 0 0 0 rgba(66,133,244,0);
+}
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(66,133,244,0.35);
+}
+.btn-primary:active { transform: translateY(0); }
+.btn-outline {
+  background: rgba(255,255,255,0.05);
+  color: var(--text-80);
+  border: 1px solid var(--border-mid);
+}
+.btn-outline:hover {
+  background: rgba(255,255,255,0.09);
+  border-color: var(--border-hover);
+  color: var(--text-100);
+}
+.btn-success {
+  background: var(--g-green);
+  color: #fff;
+}
+.btn-lg { padding: 14px 32px; font-size: 15px; }
+.btn-sm { padding: 8px 18px; font-size: 13px; }
+
+/* ── BADGE ── */
+.badge-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 100px;
+  background: rgba(52,168,83,0.12);
+  color: var(--g-green);
+  border: 1px solid rgba(52,168,83,0.25);
+  letter-spacing: 0.05em;
+}
+.badge-live::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--g-green);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* ── ANTIGRAVITY DIVIDER — Google 4-color bar ── */
+.google-bar {
+  height: 3px;
+  background: var(--grad-google);
+  border-radius: 2px;
+  width: 56px;
+  margin-bottom: 32px;
+}
+.google-bar-center { margin-left: auto; margin-right: auto; }
+
+/* ── NAVIGATION ── */
+#nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 72px;
+  transition: var(--transition);
+  border-bottom: 1px solid transparent;
+}
+#nav.scrolled {
+  background: var(--bg-nav);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-bottom-color: var(--border);
+}
+.nav-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-100);
+}
+.nav-logo-mark {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #4285F4 0%, #00D4FF 100%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(66,133,244,0.35);
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  padding: 7px 14px;
+  border-radius: 100px;
+  transition: var(--transition);
+}
+.nav-link:hover {
+  color: var(--text-100);
+  background: rgba(255,255,255,0.06);
+}
+.nav-link.active {
+  color: var(--text-100);
+}
+.nav-cta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* ── MOBILE NAV ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--text-muted);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: #fff; }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: #fff; }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 72px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-base);
+  z-index: 999;
+  padding: 32px;
+  flex-direction: column;
+  gap: 8px;
+  backdrop-filter: blur(20px);
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu .nav-link {
+  display: block;
+  padding: 16px 20px;
+  font-size: 18px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+}
+.mobile-menu .nav-link:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
+
+/* ── NEW SPLIT HERO LAYOUT RULES (BLOOM STYLE) ── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 96px 16px 16px 16px;
+  z-index: 1;
+}
+
+@media (min-width: 1024px) {
+  #hero {
+    padding: 112px 24px 24px 24px;
+  }
+}
+
+.video-container {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.video-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.85) 100%);
+}
+
+.split-layout {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+}
+
+@media (max-width: 1024px) {
+  .split-layout {
+    flex-direction: column;
+    height: auto;
+  }
+}
+
+.left-panel {
+  width: 52%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 1024px) {
+  .left-panel {
+    width: 100%;
+  }
+}
+
+.left-overlay {
+  position: relative;
+  border-radius: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  z-index: 2;
+  flex-grow: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1200px) {
+  .left-overlay {
+    padding: 48px;
+  }
+}
+
+.hero-left-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 28px;
+}
+.hero-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  color: #fff;
+}
+.hero-logo-icon {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #4285F4 0%, #00D4FF 100%);
+  color: #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 10px rgba(66,133,244,0.3);
+}
+.btn-menu-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+}
+
+.hero-left-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 28px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.hero-logo-large {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #4285F4 0%, #00D4FF 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 800;
+  animation: float-up 6s ease-in-out infinite;
+  box-shadow: 0 4px 24px rgba(66,133,244,0.35);
+}
+.hero-h1-split {
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.05em;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: #white;
+}
+.hero-h1-split span.font-serif {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 400;
+  font-family: 'Source Serif 4', serif;
+}
+
+.explore-cta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  border-radius: 9999px;
+  background-color: #fff;
+  color: #000;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255,255,255,0.15);
+}
+.download-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.hero-pill-tag {
+  padding: 6px 12px;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.hero-left-footer {
+  width: 100%;
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.quote-label-tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.quote-quote {
+  font-size: 1rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 400px;
+  line-height: 1.4;
+}
+.quote-auth-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 260px;
+}
+.quote-hr {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+}
+.quote-auth {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.right-panel {
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 0 24px;
+}
+
+@media (max-width: 1024px) {
+  .right-panel {
+    width: 100%;
+    padding: 24px 0 0 0;
+  }
+}
+
+.right-top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 24px;
+}
+.socials-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 18px;
+  border-radius: 9999px;
+}
+.socials-box a {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  opacity: 0.7;
+  transition: var(--transition);
+}
+.socials-box a:hover {
+  opacity: 1;
+}
+.socials-dir-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  padding-left: 10px;
+  color: rgba(255, 255, 255, 0.5);
+}
+.btn-sparkles-account {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+}
+
+.ecosystem-callout {
+  width: 220px;
+  padding: 16px;
+  border-radius: 1rem;
+  align-self: flex-end;
+  margin-bottom: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ecosystem-callout h4 {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.ecosystem-callout p {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+}
+
+.feature-box-wrap {
+  width: 100%;
+  border-radius: 2rem;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.feature-box-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.feature-box-card {
+  padding: 16px;
+  border-radius: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 120px;
+}
+.feature-box-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.feature-box-card h4 {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.feature-box-card p {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+}
+
+.feature-box-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 1.25rem;
+}
+.feature-thumb-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.feature-thumb {
+  width: 80px;
+  height: 52px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #111 0%, #222 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+.feature-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(45deg, #111 0px, #111 2px, transparent 2px, transparent 6px);
+  opacity: 0.4;
+}
+.feature-thumb-desc h4 {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.feature-thumb-desc p {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+.btn-plus-action {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+}
+
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.01);
+  background-blend-mode: luminosity;
+
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  border: none;
+}
+
+.liquid-glass-strong {
+  background: rgba(255, 255, 255, 0.015);
+  background-blend-mode: luminosity;
+
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+  border: none;
+}
+
+/* Gradient Borders using mask-composite */
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(180deg, 
+      rgba(255, 255, 255, 0.45) 0%, 
+      rgba(255, 255, 255, 0.15) 20%, 
+      transparent 40%, 
+      transparent 60%, 
+      rgba(255, 255, 255, 0.15) 80%, 
+      rgba(255, 255, 255, 0.45) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.liquid-glass-strong::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(180deg, 
+      rgba(255, 255, 255, 0.5) 0%, 
+      rgba(255, 255, 255, 0.2) 20%, 
+      transparent 40%, 
+      transparent 60%, 
+      rgba(255, 255, 255, 0.2) 80%, 
+      rgba(255, 255, 255, 0.5) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Interactive transitions */
+.interactive {
+  transition: var(--transition);
+}
+.interactive:hover {
+  transform: scale(1.05);
+}
+.interactive:active {
+  transform: scale(0.95);
+}
+
+/* ── TRUST STRIP ── */
+#trust {
+  padding: 52px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-surface);
+  position: relative;
+  overflow: hidden;
+}
+/* Google bar accent on trust strip */
+#trust::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--grad-google);
+}
+.trust-label {
+  font-size: 10px;
+  color: var(--text-dark);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  font-weight: 700;
+}
+.logos-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.logo-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: var(--transition);
+}
+.logo-pill:hover {
+  color: var(--text-100);
+  border-color: var(--border-hover);
+  background: rgba(255,255,255,0.06);
+}
+.logo-icon { font-size: 16px; }
+
+/* ── PROBLEM ── */
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.problem-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.prob-stat {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 28px 24px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.prob-stat::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+}
+.prob-stat:nth-child(1)::before { background: var(--g-blue); }
+.prob-stat:nth-child(2)::before { background: var(--g-yellow); }
+.prob-stat:nth-child(3)::before { background: var(--g-red); }
+.prob-stat:nth-child(4)::before { background: var(--g-green); }
+.prob-stat:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
+.prob-stat-num {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 8px;
+  letter-spacing: -0.04em;
+}
+.prob-stat-text {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  font-weight: 500;
+}
+.problem-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.prob-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  transition: var(--transition);
+}
+.prob-item:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-card-hover);
+}
+.prob-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-md);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+.prob-icon.red { background: var(--red-glow); }
+.prob-icon.amber { background: var(--amber-glow); }
+.prob-icon.blue { background: var(--primary-glow); }
+
+/* ── HOW IT WORKS ── */
+#how {
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 64px;
+  background: var(--border);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.step-card {
+  background: var(--bg-surface);
+  padding: 44px 36px;
+  position: relative;
+  transition: var(--transition);
+}
+.step-card:hover { background: var(--bg-elevated); }
+.step-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 28px;
+}
+.step-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.step-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--text-100); }
+.step-connector { display: none; }
+.step-code {
+  margin-top: 20px;
+  background: rgba(0,0,0,0.4);
+  border-radius: var(--r-sm);
+  padding: 12px 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--primary);
+  border: 1px solid rgba(66,133,244,0.15);
+  line-height: 1.6;
+}
+
+/* ── FEATURES ── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 64px;
+}
+.feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 36px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.feature-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 100% 0%, rgba(66,133,244,0.06) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.feature-card:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+}
+.feature-card:hover::after { opacity: 1; }
+.feat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.feat-title { font-size: 16px; font-weight: 700; margin-bottom: 10px; color: var(--text-100); }
+.feat-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+.feat-tag {
+  display: inline-block;
+  margin-top: 18px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 100px;
+  letter-spacing: 0.04em;
+}
+
+/* ── LIVE DEMO ── */
+#demo-section {
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.demo-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 60px;
+  align-items: start;
+  margin-top: 64px;
+}
+.demo-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 32px;
+}
+.demo-ctrl-label {
+  font-size: 10px;
+  color: var(--text-dark);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+.demo-event-btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.event-btn {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.event-btn:hover {
+  color: var(--text-100);
+  border-color: var(--border-hover);
+}
+.event-btn.selected {
+  background: rgba(66,133,244,0.12);
+  border-color: rgba(66,133,244,0.35);
+  color: var(--primary);
+}
+.slider-label-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.slider-lbl { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+.slider-val { font-size: 13px; font-weight: 700; color: var(--text-100); }
+
+input[type=range] {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  outline: none;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition);
+  border: 2px solid #fff;
+  box-shadow: 0 0 8px rgba(66,133,244,0.4);
+}
+input[type=range]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+input[type=range]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 0 8px rgba(66,133,244,0.4);
+}
+
+.demo-result-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+}
+.drp-header {
+  padding: 16px 24px;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.drp-title { font-family: var(--font-mono); font-size: 11px; color: var(--text-dark); font-weight: 500; }
+.drp-body { padding: 32px; }
+.score-display-wrap {
+  text-align: center;
+  padding: 16px 0 28px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.score-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px solid var(--border-mid);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+  transition: var(--transition);
+  background: rgba(0,0,0,0.2);
+}
+.score-circle-num {
+  font-family: var(--font-display);
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--text-100);
+  transition: var(--transition);
+}
+.score-circle-label { font-size: 11px; color: var(--text-dark); margin-top: 2px; font-weight: 600; }
+.score-breakdown { display: flex; flex-direction: column; gap: 14px; }
+.sb-row { display: flex; align-items: center; gap: 12px; }
+.sb-label { font-size: 13px; color: var(--text-muted); flex: 1; font-weight: 500; }
+.sb-bar-wrap { width: 90px; height: 4px; background: rgba(255,255,255,0.06); border-radius: 10px; overflow: hidden; flex-shrink: 0; }
+.sb-bar { height: 100%; border-radius: 10px; transition: width 0.8s var(--ease); }
+.sb-pts { font-family: var(--font-mono); font-size: 12px; font-weight: 700; width: 40px; text-align: right; flex-shrink: 0; }
+
+.result-action-box {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.15);
+  transition: var(--transition);
+}
+.result-action-box.triggered {
+  background: rgba(52,168,83,0.08);
+  border-color: rgba(52,168,83,0.28);
+}
+.rab-title { font-size: 14px; font-weight: 700; margin-bottom: 5px; color: var(--text-100); }
+.rab-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.rab-tx {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--primary);
+  margin-top: 10px;
+  word-break: break-all;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+}
+
+/* ── METRICS ── */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 64px 0;
+}
+.metric-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 32px 20px;
+  text-align: center;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.metric-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+.metric-card:nth-child(1) { border-top: 2px solid var(--g-blue); }
+.metric-card:nth-child(2) { border-top: 2px solid var(--g-green); }
+.metric-card:nth-child(3) { border-top: 2px solid var(--g-yellow); }
+.metric-card:nth-child(4) { border-top: 2px solid var(--g-red); }
+.metric-num {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 10px;
+  letter-spacing: -0.04em;
+}
+.metric-label { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+.case-study {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-2xl);
+  padding: 48px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 48px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.case-study::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--grad-google);
+}
+.case-tag { margin-bottom: 16px; }
+.case-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.case-stat {
+  padding: 18px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  transition: var(--transition);
+}
+.case-stat:hover { border-color: var(--border-hover); }
+.case-stat-num { font-family: var(--font-display); font-size: 24px; font-weight: 800; color: var(--text-100); letter-spacing: -0.03em; }
+.case-stat-label { font-size: 12px; color: var(--text-dark); margin-top: 3px; font-weight: 500; }
+
+/* ── PRICING ── */
+#pricing {
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.pricing-toggle-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  justify-content: center;
+  margin: 36px 0 56px;
+}
+.toggle-label { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+.toggle-switch {
+  width: 44px;
+  height: 24px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 100px;
+  position: relative;
+  cursor: pointer;
+  transition: var(--transition);
+  border: 1px solid var(--border);
+}
+.toggle-switch.on { background: var(--primary); border-color: var(--primary); }
+.toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  transition: var(--transition);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+.toggle-switch.on .toggle-knob { left: 23px; }
+.save-badge {
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(52,168,83,0.12);
+  color: var(--g-green);
+  border: 1px solid rgba(52,168,83,0.28);
+  border-radius: 100px;
+  padding: 3px 10px;
+  letter-spacing: 0.03em;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.pricing-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 40px 36px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+}
+.pricing-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+.pricing-card.featured {
+  border: 1px solid rgba(66,133,244,0.35);
+  background: rgba(66,133,244,0.04);
+  box-shadow: 0 0 0 1px rgba(66,133,244,0.12), var(--shadow);
+}
+.pricing-card.featured:hover {
+  border-color: rgba(66,133,244,0.55);
+}
+.popular-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 16px;
+  border-radius: 100px;
+  white-space: nowrap;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.pricing-tier {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.pricing-price {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.pricing-amount {
+  font-family: var(--font-display);
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text-100);
+  letter-spacing: -0.04em;
+}
+.pricing-period { font-size: 14px; color: var(--text-dark); font-weight: 500; }
+.pricing-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 28px; line-height: 1.55; }
+.pricing-divider { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
+.pricing-features { display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.pf-item { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--text-muted); }
+.pf-check { color: var(--g-green); flex-shrink: 0; font-weight: 700; }
+.pf-cross { color: var(--text-dark); flex-shrink: 0; font-weight: 700; }
+.pricing-cta { margin-top: 32px; }
+
+/* ── FAQ ── */
+.faq-list {
+  max-width: 760px;
+  margin: 56px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.faq-item {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition: var(--transition);
+  margin-bottom: 8px;
+}
+.faq-item:hover { border-color: var(--border-hover); }
+.faq-item.open { border-color: var(--border-hover); background: var(--bg-card); }
+.faq-q {
+  width: 100%;
+  padding: 20px 24px;
+  background: none;
+  border: none;
+  color: var(--text-80);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--transition);
+  gap: 12px;
+}
+.faq-q:hover { color: var(--text-100); }
+.faq-item.open .faq-q { color: var(--text-100); }
+.faq-arrow {
+  font-size: 18px;
+  color: var(--text-dark);
+  transition: transform 0.3s var(--ease);
+  flex-shrink: 0;
+}
+.faq-item.open .faq-arrow { transform: rotate(180deg); color: var(--text-80); }
+.faq-a {
+  display: none;
+  padding: 0 24px 20px;
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.75;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+.faq-item.open .faq-a { display: block; }
+
+/* ── CTA ── */
+#cta {
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+#cta::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--grad-google);
+}
+.cta-glow {
+  position: absolute;
+  width: 800px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(66,133,244,0.06) 0%, rgba(52,168,83,0.04) 40%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(40px);
+}
+.cta-inner { position: relative; z-index: 2; }
+.cta-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 44px;
+}
+.cta-note {
+  font-size: 13px;
+  color: var(--text-dark);
+  margin-top: 20px;
+  font-weight: 500;
+}
+
+/* ── FOOTER ── */
+#footer {
+  padding: 80px 0 40px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-base);
+  position: relative;
+}
+#footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--grad-google);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 60px;
+}
+.footer-brand-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-top: 14px;
+  max-width: 280px;
+}
+.footer-col-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-100);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+}
+.footer-links { display: flex; flex-direction: column; gap: 12px; }
+.footer-link {
+  font-size: 14px;
+  color: var(--text-muted);
+  transition: var(--transition);
+}
+.footer-link:hover { color: var(--text-100); }
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.footer-copy { font-size: 13px; color: var(--text-dark); }
+.footer-badges { display: flex; gap: 10px; }
+.footer-badge {
+  font-size: 11px;
+  color: var(--text-muted);
+  padding: 3px 12px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: rgba(255,255,255,0.02);
+  font-weight: 600;
+}
+.social-links { display: flex; gap: 8px; margin-top: 18px; }
+.social-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-sm);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+.social-btn:hover {
+  background: rgba(66,133,244,0.10);
+  border-color: rgba(66,133,244,0.35);
+  color: var(--primary);
+}
+
+/* ── SCROLL ANIMATIONS ── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.fade-left {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.fade-left.visible { opacity: 1; transform: translateX(0); }
+.fade-right {
+  opacity: 0;
+  transform: translateX(24px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.fade-right.visible { opacity: 1; transform: translateX(0); }
+.stagger > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+.stagger.visible > *:nth-child(1){opacity:1;transform:none;transition-delay:.00s}
+.stagger.visible > *:nth-child(2){opacity:1;transform:none;transition-delay:.08s}
+.stagger.visible > *:nth-child(3){opacity:1;transform:none;transition-delay:.16s}
+.stagger.visible > *:nth-child(4){opacity:1;transform:none;transition-delay:.24s}
+.stagger.visible > *:nth-child(5){opacity:1;transform:none;transition-delay:.32s}
+.stagger.visible > *:nth-child(6){opacity:1;transform:none;transition-delay:.40s}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .hero-content{grid-template-columns:1fr;gap:48px}
+  .hero-right{display:none}
+  .problem-grid{grid-template-columns:1fr}
+  .steps-grid{grid-template-columns:1fr}
+  .step-card:first-child{border-radius:var(--r-xl) var(--r-xl) 0 0}
+  .step-card:last-child{border-radius:0 0 var(--r-xl) var(--r-xl)}
+  .features-grid{grid-template-columns:1fr 1fr}
+  .demo-layout{grid-template-columns:1fr}
+  .metrics-grid{grid-template-columns:repeat(2,1fr)}
+  .case-study{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+  .nav-links,.nav-cta .btn-outline{display:none}
+  .hamburger{display:flex}
+}
+@media(max-width:600px){
+  .features-grid{grid-template-columns:1fr}
+  .metrics-grid{grid-template-columns:1fr 1fr}
+  .problem-stats{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .hero-stats{flex-wrap:wrap;gap:20px}
+  .h1,.hero-title{font-size:42px}
+  .container{padding:0 20px}
+}
+
+/* ── TOAST ── */
+#toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--r-lg);
+  padding: 14px 18px;
+  font-size: 13px;
+  color: var(--text-80);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all .3s var(--ease);
+  max-width: 320px;
+  font-weight: 500;
+}
+#toast.show { transform: translateY(0); opacity: 1; }
+#toast.success { border-color: rgba(52,168,83,0.30); }
+
+
+/* Page-wide Glassmorphism */
+
+
+</style>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+// Initialize Lucide Icons on Load
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+});
+</script>
+</head>
+<body>
+
+<!-- ──────────── LOOPING VIDEO BACKGROUND ──────────── -->
+<div class="video-container">
+    <video class="video-bg" autoplay loop muted playsinline>
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260315_073750_51473149-4350-4920-ae24-c8214286f323.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+</div>
+
+<!-- ──────────── NAV ──────────── -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-mark">Q</div>
+      QIA
+    </a>
+    <div class="nav-links">
+      <a href="#how" class="nav-link">How it works</a>
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#demo-section" class="nav-link">Live Demo</a>
+      <a href="#results" class="nav-link">Results</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="#faq" class="nav-link">FAQ</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#demo-section" class="btn btn-outline btn-sm">View Demo</a>
+      <a href="#pricing" class="btn btn-primary btn-sm">Get Started</a>
+    </div>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#how" class="nav-link" onclick="closeMobileMenu()">How it works</a>
+  <a href="#features" class="nav-link" onclick="closeMobileMenu()">Features</a>
+  <a href="#demo-section" class="nav-link" onclick="closeMobileMenu()">Live Demo</a>
+  <a href="#results" class="nav-link" onclick="closeMobileMenu()">Results</a>
+  <a href="#pricing" class="nav-link" onclick="closeMobileMenu()">Pricing</a>
+  <a href="#faq" class="nav-link" onclick="closeMobileMenu()">FAQ</a>
+  <hr class="divider" style="margin:12px 0">
+  <a href="#pricing" class="btn btn-primary" onclick="closeMobileMenu()">Get Started</a>
+</div>
+
+<!-- ──────────── HERO SECTION (SPLIT-PANEL INTERFACE WITH LOOPING VIDEO BACKGROUND) ──────────── -->
+<section id="hero">
+
+
+  <div class="split-layout container">
+      <!-- Left Panel inside liquid-glass-strong -->
+      <div class="left-panel">
+          <div class="left-overlay liquid-glass-strong">
+              <!-- Top Header inside Left Panel -->
+              <div class="hero-left-header">
+                  <div class="hero-brand">
+                      <div class="hero-logo-icon">Q</div>
+                      <span>qia intent engine</span>
+                  </div>
+                  <button class="btn-menu-pill liquid-glass interactive" onclick="document.getElementById('mobileMenu').classList.toggle('open')">
+                      <i data-lucide="menu" style="width: 14px; height: 14px;"></i>
+                      <span>Menu</span>
+                  </button>
+              </div>
+
+              <!-- Center Headings -->
+              <div class="hero-left-center">
+                  <div class="hero-logo-large">Q</div>
+                  <h1 class="hero-h1-split">
+                      Predict user behavior <br>
+                      <span class="font-serif italic">before it happens</span>
+                  </h1>
+                  <a href="#demo-section" class="explore-cta interactive" style="text-decoration: none;">
+                      <span>Try Live Demo</span>
+                      <div class="download-circle">
+                          <i data-lucide="download" style="width: 12px; height: 12px;"></i>
+                      </div>
+                  </a>
+                  <div class="hero-pills">
+                      <div class="hero-pill-tag liquid-glass">Intent Analytics</div>
+                      <div class="hero-pill-tag liquid-glass">EVM Native</div>
+                      <div class="hero-pill-tag liquid-glass">AI Scoring</div>
+                  </div>
+              </div>
+
+              <!-- Bottom Quote -->
+              <div class="hero-left-footer">
+                  <span class="quote-label-tag">Visionary Design</span>
+                  <p class="quote-quote font-serif">
+                      "We <span class="font-serif italic">imagined</span> a realm with <span class="font-serif italic">no ending</span>."
+                  </p>
+                  <div class="quote-auth-row">
+                      <div class="quote-hr"></div>
+                      <span class="quote-auth">Marcus Aurelio</span>
+                      <div class="quote-hr"></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- Right Panel Widgets -->
+      <div class="right-panel">
+          <!-- Top bar -->
+          <div class="right-top-nav">
+              <div class="socials-box liquid-glass">
+                  <a href="https://github.com/Sarthak6279/qia-intent-engine" target="_blank" title="GitHub"><i data-lucide="github" style="width:14px;height:14px"></i></a>
+                  <a href="#" title="Twitter"><i data-lucide="twitter" style="width: 14px; height: 14px;"></i></a>
+                  <a href="#" title="LinkedIn"><i data-lucide="linkedin" style="width: 14px; height: 14px;"></i></a>
+                  <div class="socials-dir-arrow"><i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></div>
+              </div>
+              <button class="btn-sparkles-account liquid-glass interactive" title="Account Settings">
+                  <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>
+              </button>
+          </div>
+
+          <!-- Callout widget -->
+          <div class="ecosystem-callout liquid-glass">
+              <h4>Enter our ecosystem</h4>
+              <p>Unlock deep user interaction insights dynamically in real-time. Built for UBIC Blockchain developers.</p>
+          </div>
+
+          <!-- Feature Cards Drawer -->
+          <div class="feature-box-wrap liquid-glass">
+              <div class="feature-box-row">
+                  <div class="feature-box-card liquid-glass">
+                      <div class="feature-box-icon">
+                          <i data-lucide="wand-2" style="width: 14px; height: 14px;"></i>
+                      </div>
+                      <h4>Processing</h4>
+                      <p>Analyzing click velocity, scroll rates, and delay factors dynamically.</p>
+                  </div>
+                  <div class="feature-box-card liquid-glass">
+                      <div class="feature-box-icon">
+                          <i data-lucide="book-open" style="width: 14px; height: 14px;"></i>
+                      </div>
+                      <h4>Growth Archive</h4>
+                      <p>Verify historical intent metrics logged transparently on-chain.</p>
+                  </div>
+              </div>
+
+              <div class="feature-box-bottom liquid-glass">
+                  <div class="feature-thumb-wrap">
+                      <div class="feature-thumb"></div>
+                      <div class="feature-thumb-desc">
+                          <h4>Consensus Verification</h4>
+                          <p>Real-time block verifier</p>
+                      </div>
+                  </div>
+                  <button class="btn-plus-action interactive" title="Launch Visualizer">
+                      <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
+                  </button>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+<!-- ──────────── TRUST ──────────── -->
+<div id="trust">
+  <div class="container text-center">
+    <div class="trust-label">Built with</div>
+    <div class="logos-row">
+      <div class="logo-pill"><span class="logo-icon"><i data-lucide="server" style="width:14px;height:14px"></i></span> Node.js</div>
+      <div class="logo-pill"><span class="logo-icon"><i data-lucide="route" style="width:14px;height:14px"></i></span> Express.js</div>
+      <div class="logo-pill"><span class="logo-icon"><i data-lucide="hexagon" style="width:14px;height:14px"></i></span> Solidity</div>
+      <div class="logo-pill"><span class="logo-icon"><i data-lucide="link" style="width:14px;height:14px"></i></span> ethers.js</div>
+      <div class="logo-pill"><span class="logo-icon"><i data-lucide="code-2" style="width:14px;height:14px"></i></span> Vanilla JS SDK</div>
+    </div>
+  </div>
+</div>
+
+<!-- ──────────── PROBLEM ──────────── -->
+<section class="section" id="problem">
+  <div class="container">
+    <div class="problem-grid">
+      <div class="fade-left">
+        <div class="label">The Problem</div>
+        <h2 class="h2" style="margin-bottom:16px">67% of users leave at the <span style="color:var(--red)">worst possible moment</span></h2>
+        <p class="body-lg" style="margin-bottom:28px">They reach your action page, hesitate, and disappear. Traditional analytics notice them gone the next morning. By then, it's too late.</p>
+        <div class="problem-list">
+          <div class="prob-item">
+            <div class="prob-icon red"><i data-lucide="alert-triangle" style="width:18px;height:18px"></i></div>
+            <div>
+              <div class="h4" style="margin-bottom:4px">Smart grid disengagement</div>
+              <p class="body-sm">Energy dashboard engagement stuck at 28%. Time-of-use pricing adoption fails at 12%. Users read but never act.</p>
+            </div>
+          </div>
+          <div class="prob-item">
+            <div class="prob-icon amber"><i data-lucide="unlink" style="width:18px;height:18px"></i></div>
+            <div>
+              <div class="h4" style="margin-bottom:4px">Web3 wallet drop-offs</div>
+              <p class="body-sm">70% of users who connect wallets never complete their transaction. Only 5–8% convert on first visit.</p>
+            </div>
+          </div>
+          <div class="prob-item">
+            <div class="prob-icon blue"><i data-lucide="clock" style="width:18px;height:18px"></i></div>
+            <div>
+              <div class="h4" style="margin-bottom:4px">Analytics arrive too late</div>
+              <p class="body-sm">Mixpanel and Amplitude tell you who left yesterday. The decision window is 30–60 seconds. Not 24 hours.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fade-right">
+        <div class="problem-stats stagger">
+          <div class="prob-stat">
+            <div class="prob-stat-num" style="color:var(--red)">67%</div>
+            <div class="prob-stat-text">Users abandon digital transactions before completing</div>
+          </div>
+          <div class="prob-stat">
+            <div class="prob-stat-num" style="color:var(--amber)">28%</div>
+            <div class="prob-stat-text">Average energy dashboard engagement rate</div>
+          </div>
+          <div class="prob-stat">
+            <div class="prob-stat-num" style="color:var(--red)">$14B</div>
+            <div class="prob-stat-text">Lost annually from Web3 drop-offs</div>
+          </div>
+          <div class="prob-stat">
+            <div class="prob-stat-num" style="color:var(--blue2)">30s</div>
+            <div class="prob-stat-text">The actual decision window you need to act in</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────── HOW IT WORKS ──────────── -->
+<section class="section-sm" id="how">
+  <div class="container">
+    <div class="text-center fade-up">
+      <div class="label">How It Works</div>
+      <h2 class="h2" style="margin-bottom:14px">From user click to intent trigger<br>in under <span class="accent">200ms</span></h2>
+      <p class="body-lg">Three behavioral triggers. Real-time analysis. Production-ready.</p>
+    </div>
+    <div class="steps-grid fade-up">
+      <div class="step-card">
+        <div class="step-num">Step 01</div>
+        <div class="step-icon-wrap" style="background:rgba(59,130,246,.1)"><i data-lucide="download" style="width:20px;height:20px;color:#3b82f6"></i></div>
+        <h3 class="step-title">Install & Track</h3>
+        <p class="body-md">Add our 3.2KB SDK to your frontend. It silently tracks scroll depth, connection delays, hover time, and click patterns with zero performance impact.</p>
+        <div class="step-code">QIA.init({ apiKey: 'qia_xxx' })<br>QIA.track({ event, delay })</div>
+        <div class="step-connector"></div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Step 02</div>
+        <div class="step-icon-wrap" style="background:rgba(245,158,11,.1)"><i data-lucide="gauge" style="width:20px;height:20px;color:#f59e0b"></i></div>
+        <h3 class="step-title">Score Intent</h3>
+        <p class="body-md">Our behavioral engine weighs every signal in real-time. Wallet delay, scroll depth, hesitation patterns — combined into a 0–100 intent score.</p>
+        <div class="step-code" style="color:var(--amber)">score: 85 / 100<br>confidence: HIGH</div>
+        <div class="step-connector"></div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Step 03</div>
+        <div class="step-icon-wrap" style="background:rgba(16,185,129,.1)"><i data-lucide="zap" style="width:20px;height:20px;color:#10b981"></i></div>
+        <h3 class="step-title">Trigger Action</h3>
+        <p class="body-md">When score exceeds 75, QIA fires an automated response — a smart contract event, UI nudge, or API webhook — before the user decides to leave.</p>
+        <div class="step-code" style="color:var(--green)">trigger: true<br>txHash: 0x3a9f...d4c2</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────── FEATURES ──────────── -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="text-center fade-up">
+      <div class="label">Features</div>
+      <h2 class="h2" style="margin-bottom:14px">Everything you need to stop<br>losing high-intent users</h2>
+      <p class="body-lg">Built modular. Ship in hours, not weeks.</p>
+    </div>
+    <div class="features-grid stagger">
+      <div class="feature-card">
+        <div class="feat-icon" style="background:rgba(59,130,246,.1)"><i data-lucide="activity" style="width:18px;height:18px;color:#3b82f6"></i></div>
+        <div class="feat-title">Real-Time Intent Scoring</div>
+        <div class="feat-desc">Three behavioral signals — delay, scroll depth, hesitation — scored and weighted in under 1ms. No training data or historical records needed.</div>
+        <span class="feat-tag" style="background:rgba(59,130,246,.1);color:var(--blue3)">Core engine</span>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon" style="background:rgba(16,185,129,.1)"><i data-lucide="blocks" style="width:18px;height:18px;color:#10b981"></i></div>
+        <div class="feat-title">On-Chain Event Logging</div>
+        <div class="feat-desc">Every high-intent trigger fires a smart contract event via our Solidity contract. Immutable, transparent proof logged on any EVM-compatible chain.</div>
+        <span class="feat-tag" style="background:rgba(16,185,129,.1);color:var(--green2)">Blockchain native</span>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon" style="background:rgba(245,158,11,.1)"><i data-lucide="puzzle" style="width:18px;height:18px;color:#f59e0b"></i></div>
+        <div class="feat-title">Plug-and-Play SDK</div>
+        <div class="feat-desc">3.2KB JavaScript SDK. Zero dependencies. Works with React, Vue, vanilla JS, or any framework. Full integration in 2 lines of code.</div>
+        <span class="feat-tag" style="background:rgba(245,158,11,.1);color:var(--amber)">Framework-agnostic</span>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon" style="background:rgba(139,92,246,.1)"><i data-lucide="shield-check" style="width:18px;height:18px;color:#8b5cf6"></i></div>
+        <div class="feat-title">API Key Authentication</div>
+        <div class="feat-desc">96-bit entropy keys in qia_xxx format. O(1) validation via dual hash maps. Generate, revoke, and manage company keys via REST API.</div>
+        <span class="feat-tag" style="background:rgba(139,92,246,.1);color:#a78bfa">Secure</span>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon" style="background:rgba(239,68,68,.1)"><i data-lucide="bolt" style="width:18px;height:18px;color:#ef4444"></i></div>
+        <div class="feat-title">Automated Triggers</div>
+        <div class="feat-desc">When intent score exceeds 75, automated actions fire — smart contract calls, API webhooks, UI overlays, or notifications. No manual review.</div>
+        <span class="feat-tag" style="background:rgba(239,68,68,.1);color:#f87171">Automated</span>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon" style="background:rgba(20,184,166,.1)"><i data-lucide="sliders" style="width:18px;height:18px;color:#14b8a6"></i></div>
+        <div class="feat-title">Configurable Thresholds</div>
+        <div class="feat-desc">A/B test scoring weights via the REST API. Adjust trigger thresholds, signal points, and event weights without redeploying code.</div>
+        <span class="feat-tag" style="background:rgba(20,184,166,.1);color:#2dd4bf">Flexible</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────── THREE TRIGGER BEHAVIORS ──────────── -->
+<section class="section" id="trigger-behaviors">
+  <div class="container">
+    <div class="text-center fade-up">
+      <div class="label">How It Works</div>
+      <h2 class="h2" style="margin-bottom:14px">Three trigger behaviors<br><span class="accent">54 micro-signals analyzed</span></h2>
+      <p class="body-lg">Real-time analysis of temporal, spatial, and interaction patterns</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px;margin-top:48px">
+      <!-- Behavior 1: Temporal -->
+      <div style="background:rgba(66,133,244,0.08);border:1px solid rgba(66,133,244,0.2);border-radius:var(--r-xl);padding:32px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue3),transparent)"></div>
+        <div style="margin-bottom:12px"><i data-lucide="timer" style="width:24px;height:24px;color:var(--blue3)"></i></div>
+        <h3 class="h3" style="margin-bottom:12px;color:var(--blue3)">Temporal Behavior</h3>
+        <p class="body-md" style="margin-bottom:16px;color:var(--text-muted)">Time-based signals that reveal decision hesitation</p>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;gap:6px;align-items:center;font-size:13px">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--blue3)"></span>
+            <span>Connection delay (>3s)</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center;font-size:13px">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--blue3)"></span>
+            <span>Form interaction pauses</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center;font-size:13px">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--blue3)"></span>
+            <span>Button hover duration</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center;font-size:13px;color:var(--text-muted)">
+            <span style="font-weight:600">18+ micro-behaviors</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Behavior 2: Spatial -->
+      <div style="background:rgba(52,168,83,0.08);border:1px solid rgba(52,168,83,0.2);border-radius:var(--r-xl);padding:32px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent)"></div>
+        <div style="margin-bottom:12px"><i data-lucide="mouse-pointer-2" style="width:24px;height:24px;color:var(--green)"></i></div>
+        <h3 class="h3" style="margin-bottom:12px;color:var(--green)">Spatial Behavior</h3>
+        <p class="body-md" style="margin-bottom:16px;color:var(--text-muted)">Movement patterns that show engagement depth</p>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;gap:6px;align-items:center;font-size:13px">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--green)"></span>
+            <span>Scroll depth (>70%)</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center;font-size:13px">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--green)"></span>
+            <span>Mouse velocity tracking</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center;font-size:13px">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--green)"></span>
+            <span>Viewport focus changes</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center;font-size:13px;color:var(--text-muted)">
+            <span style="font-weight:600">19+ micro-behaviors</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Behavior 3: Interaction -->
+      <div style="background:rgba(251,188,4,0.08);border:1px solid rgba(251,188,4,0.2);border-radius:var(--r-xl);padding:32px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--amber),transparent)"></div>
+        <div style="margin-bottom:12px"><i data-lucide="target" style="width:24px;height:24px;color:var(--amber)"></i></div>
+        <h3 class="h3" style="margin-bottom:12px;color:var(--amber)">Interaction Behavior</h3>
+        <p class="body-md" style="margin-bottom:16px;color:var(--text-muted)">User actions that signal readiness to convert</p>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;gap:6px;align-items:center;font-size:13px">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--amber)"></span>
+            <span>Button click hesitation</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center;font-size:13px">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--amber)"></span>
+            <span>Form completion rate</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center;font-size:13px">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--amber)"></span>
+            <span>Double-click patterns</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center;font-size:13px;color:var(--text-muted)">
+            <span style="font-weight:600">17+ micro-behaviors</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────── LIVE DEMO ──────────── -->
+<section class="section-sm" id="demo-section" style="background:var(--navy2)">
+  <div class="container">
+    <div class="text-center fade-up">
+      <div class="label">Interactive Demo</div>
+      <h2 class="h2" style="margin-bottom:14px">See intent scoring <span class="accent">in real-time</span></h2>
+      <p class="body-lg">Adjust the three behavioral triggers and watch your intent score calculate instantly</p>
+    </div>
+    <div class="demo-layout">
+      <div class="demo-controls fade-left">
+        <!-- Temporal Behavior Slider -->
+        <div style="background:rgba(66,133,244,0.08);border:1px solid rgba(66,133,244,0.2);border-radius:var(--r-lg);padding:20px;margin-bottom:20px">
+          <div class="demo-ctrl-label" style="color:var(--blue3);margin-bottom:12px">⏱️ Temporal: Connection Delay</div>
+          <div class="slider-wrap">
+            <div class="slider-label-row">
+              <span class="slider-lbl">Delay time</span>
+              <span class="slider-val" style="color:var(--blue3)"><span id="delayVal">0</span>s</span>
+            </div>
+            <input type="range" min="0" max="10" step="0.5" value="0" id="delaySlider" oninput="updateDemo()" style="accent-color:var(--blue3)">
+            <div style="font-size:11px;color:var(--text-dark);margin-top:6px">When > 3s: +30 points (signal: user hesitation detected)</div>
+          </div>
+        </div>
+
+        <!-- Spatial Behavior Slider -->
+        <div style="background:rgba(52,168,83,0.08);border:1px solid rgba(52,168,83,0.2);border-radius:var(--r-lg);padding:20px;margin-bottom:20px">
+          <div class="demo-ctrl-label" style="color:var(--green);margin-bottom:12px">📍 Spatial: Scroll Depth</div>
+          <div class="slider-wrap">
+            <div class="slider-label-row">
+              <span class="slider-lbl">Scroll depth</span>
+              <span class="slider-val" style="color:var(--green)"><span id="scrollVal">0</span>%</span>
+            </div>
+            <input type="range" min="0" max="100" step="5" value="0" id="scrollSlider" oninput="updateDemo()" style="accent-color:var(--green)">
+            <div style="font-size:11px;color:var(--text-dark);margin-top:6px">When > 70%: +25 points (signal: user engagement confirmed)</div>
+          </div>
+        </div>
+
+        <!-- Interaction Behavior Dropdown -->
+        <div style="background:rgba(251,188,4,0.08);border:1px solid rgba(251,188,4,0.2);border-radius:var(--r-lg);padding:20px;margin-bottom:20px">
+          <div class="demo-ctrl-label" style="color:var(--amber);margin-bottom:12px">🎯 Interaction: User Action</div>
+          <select id="eventSelect" onchange="updateDemo()" style="width:100%;padding:10px;background:var(--bg-elevated);color:var(--text-100);border:1px solid var(--border);border-radius:var(--r-md);font-family:inherit;cursor:pointer">
+            <option value="page_view">Page view (0 pts)</option>
+            <option value="scroll_depth" selected>Scroll engaged (+15 pts)</option>
+            <option value="wallet_connect">Wallet connect attempt (+25 pts)</option>
+            <option value="confirm_hesitation">Confirm button hesitation (+36 pts)</option>
+          </select>
+          <div style="font-size:11px;color:var(--text-dark);margin-top:6px">Signal: user action indicates purchase intent</div>
+        </div>
+
+        <button class="btn btn-primary" onclick="runDemo()" style="width:100%;margin-top:16px">Calculate Intent Score →</button>
+      </div>
+
+      <!-- Demo Result Display -->
+      <div class="demo-result" style="flex:1">
+        <div style="background:rgba(66,133,244,0.05);border:2px solid rgba(66,133,244,0.15);border-radius:var(--r-xl);padding:32px;text-align:center">
+          <!-- Score Circle -->
+          <div style="position:relative;width:160px;height:160px;margin:0 auto 24px;border:3px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center" id="scoreCircle">
+            <div style="text-align:center">
+              <div style="font-size:56px;font-weight:800;color:var(--text-muted)" id="demoScoreNum">0</div>
+              <div style="font-size:11px;color:var(--text-dark);letter-spacing:0.1em;text-transform:uppercase">Intent Score</div>
+            </div>
+          </div>
+
+          <!-- Status Badge -->
+          <div class="badge-live" style="margin:0 auto 20px" id="demoStatusBadge">○ Low intent</div>
+
+          <!-- Signal Breakdown -->
+          <div style="text-align:left;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;margin-bottom:20px">
+            <div style="font-size:12px;font-weight:600;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px">Signal Breakdown</div>
+            
+            <div style="margin-bottom:12px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px">
+                <span style="color:var(--blue3)">Temporal (delay)</span>
+                <span style="color:var(--blue3);font-weight:600" id="spts1">+0</span>
+              </div>
+              <div style="height:6px;background:var(--bg-surface);border-radius:3px;overflow:hidden">
+                <div id="sbar1" style="height:100%;background:var(--blue3);width:0%;transition:width 0.3s"></div>
+              </div>
+            </div>
+
+            <div style="margin-bottom:12px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px">
+                <span style="color:var(--green)">Spatial (scroll)</span>
+                <span style="color:var(--green);font-weight:600" id="spts2">+0</span>
+              </div>
+              <div style="height:6px;background:var(--bg-surface);border-radius:3px;overflow:hidden">
+                <div id="sbar2" style="height:100%;background:var(--green);width:0%;transition:width 0.3s"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px">
+                <span style="color:var(--amber)">Interaction (action)</span>
+                <span style="color:var(--amber);font-weight:600" id="spts3">+0</span>
+              </div>
+              <div style="height:6px;background:var(--bg-surface);border-radius:3px;overflow:hidden">
+                <div id="sbar3" style="height:100%;background:var(--amber);width:0%;transition:width 0.3s"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommendation -->
+          <div style="background:linear-gradient(135deg,rgba(66,244,244,0.08),rgba(66,133,244,0.08));border:1px solid rgba(66,244,244,0.2);border-radius:var(--r-lg);padding:16px;font-size:13px;color:var(--text-70);margin-bottom:20px;line-height:1.6">
+            <span style="font-weight:600;color:var(--text-100)">Recommendation: </span>
+            <span id="demoRecommendation">Adjust sliders to trigger intent signals</span>
+          </div>
+
+          <!-- Action Result Box -->
+          <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;text-align:left" id="resultBox">
+            <div style="color:var(--text-muted);font-size:12px;margin-bottom:4px">Action Result</div>
+            <h4 style="color:var(--text-80);margin-bottom:6px" id="rabTitle">No signal detected</h4>
+            <p style="font-size:12px;color:var(--text-60);margin-bottom:6px;line-height:1.5" id="rabDesc">Set temporal, spatial, or interaction triggers to see the result</p>
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-dark);word-break:break-all" id="rabTx"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────── 54 MICRO BEHAVIORS (CONDENSED) ──────────── -->
+<section class="section" id="micro-behaviors">
+  <div class="container">
+    <div class="text-center reveal">
+      <div class="label">Technology</div>
+      <h2 class="h2" style="margin-bottom:14px">54 micro-behaviors<br>measured in <span class="accent">&lt;200ms</span></h2>
+      <p class="body-lg">Three behavioral pillars. 54 total signals. Combined into a single intent score with 83% prediction accuracy.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;margin-top:48px" class="stagger-reveal">
+      <!-- Temporal -->
+      <div style="background:rgba(66,133,244,0.08);border:1px solid rgba(66,133,244,0.2);border-radius:var(--r-xl);padding:28px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue3),transparent)"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="width:40px;height:40px;border-radius:10px;background:rgba(66,133,244,0.15);display:flex;align-items:center;justify-content:center"><i data-lucide="timer" style="width:20px;height:20px;color:var(--blue3)"></i></div>
+          <div>
+            <h3 class="h4" style="color:var(--blue3);margin:0">Temporal</h3>
+            <span style="font-size:11px;color:var(--text-muted)">18 behaviors tracked</span>
+          </div>
+        </div>
+        <p class="body-md" style="margin-bottom:14px;color:var(--text-muted)">Time-based signals — connection delays, hover duration, keystroke velocity, decision latency & more.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span style="font-size:11px;padding:4px 10px;border-radius:100px;background:rgba(66,133,244,0.1);color:rgba(255,255,255,0.7)">Delay detection</span>
+          <span style="font-size:11px;padding:4px 10px;border-radius:100px;background:rgba(66,133,244,0.1);color:rgba(255,255,255,0.7)">Hover timing</span>
+          <span style="font-size:11px;padding:4px 10px;border-radius:100px;background:rgba(66,133,244,0.1);color:rgba(255,255,255,0.7)">Keystroke velocity</span>
+          <span style="font-size:11px;padding:4px 10px;border-radius:100px;background:rgba(66,133,244,0.1);color:rgba(255,255,255,0.7)">+15 more</span>
+        </div>
+      </div>
+
+      <!-- Spatial -->
+      <div style="background:rgba(52,168,83,0.08);border:1px solid rgba(52,168,83,0.2);border-radius:var(--r-xl);padding:28px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent)"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="width:40px;height:40px;border-radius:10px;background:rgba(52,168,83,0.15);display:flex;align-items:center;justify-content:center"><i data-lucide="mouse-pointer-2" style="width:20px;height:20px;color:var(--green)"></i></div>
+          <div>
+            <h3 class="h4" style="color:var(--green);margin:0">Spatial</h3>
+            <span style="font-size:11px;color:var(--text-muted)">19 behaviors tracked</span>
+          </div>
+        </div>
+        <p class="body-md" style="margin-bottom:14px;color:var(--text-muted)">Movement signals — scroll depth, cursor velocity, viewport focus, touch patterns & more.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span style="font-size:11px;padding:4px 10px;border-radius:100px;background:rgba(52,168,83,0.1);color:rgba(255,255,255,0.7)">Scroll tracking</span>
+          <span style="font-size:11px;padding:4px 10px;border-radius:100px;background:rgba(52,168,83,0.1);color:rgba(255,255,255,0.7)">Cursor velocity</span>
+          <span style="font-size:11px;padding:4px 10px;border-radius:100px;background:rgba(52,168,83,0.1);color:rgba(255,255,255,0.7)">Heat mapping</span>
+          <span style="font-size:11px;padding:4px 10px;border-radius:100px;background:rgba(52,168,83,0.1);color:rgba(255,255,255,0.7)">+16 more</span>
+        </div>
+      </div>
+
+      <!-- Interaction -->
+      <div style="background:rgba(251,188,4,0.08);border:1px solid rgba(251,188,4,0.2);border-radius:var(--r-xl);padding:28px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--amber),transparent)"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="width:40px;height:40px;border-radius:10px;background:rgba(251,188,4,0.15);display:flex;align-items:center;justify-content:center"><i data-lucide="target" style="width:20px;height:20px;color:var(--amber)"></i></div>
+          <div>
+            <h3 class="h4" style="color:var(--amber);margin:0">Interaction</h3>
+            <span style="font-size:11px;color:var(--text-muted)">17 behaviors tracked</span>
+          </div>
+        </div>
+        <p class="body-md" style="margin-bottom:14px;color:var(--text-muted)">Action signals — click hesitation, form completion, input corrections, navigation patterns & more.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span style="font-size:11px;padding:4px 10px;border-radius:100px;background:rgba(251,188,4,0.1);color:rgba(255,255,255,0.7)">Click analysis</span>
+          <span style="font-size:11px;padding:4px 10px;border-radius:100px;background:rgba(251,188,4,0.1);color:rgba(255,255,255,0.7)">Form tracking</span>
+          <span style="font-size:11px;padding:4px 10px;border-radius:100px;background:rgba(251,188,4,0.1);color:rgba(255,255,255,0.7)">Navigation flow</span>
+          <span style="font-size:11px;padding:4px 10px;border-radius:100px;background:rgba(251,188,4,0.1);color:rgba(255,255,255,0.7)">+14 more</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,rgba(66,133,244,0.06),rgba(52,168,83,0.06),rgba(251,188,4,0.06));border:1px solid rgba(255,255,255,0.08);border-radius:var(--r-xl);padding:32px;margin-top:48px;text-align:center" class="reveal">
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px">
+        <i data-lucide="cpu" style="width:18px;height:18px;color:var(--primary)"></i>
+        <span style="font-size:14px;font-weight:600;color:var(--text-80)">Proprietary Behavioral Coefficient Engine</span>
+      </div>
+      <p style="color:var(--text-60);font-size:14px;max-width:600px;margin:0 auto">All <strong style="color:var(--text-80)">54 micro-behaviors</strong> are weighted, normalized, and combined in real-time. Result: a single 0–100 intent score with <strong style="color:var(--g-green)">83% prediction accuracy</strong>.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ──────────── RESULTS ──────────── -->
+<section class="section" id="results">
+  <div class="container">
+    <div class="text-center fade-up">
+      <div class="label">Results</div>
+      <h2 class="h2" style="margin-bottom:14px">Measured impact,<br>not projections</h2>
+    </div>
+    <div class="metrics-grid stagger">
+      <div class="metric-card">
+        <div class="metric-num accent">3.4×</div>
+        <div class="metric-label">Conversion rate improvement on NFT mint pages</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num green-text">18%</div>
+        <div class="metric-label">Reduction in peak energy demand with smart grid SDK</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num amber-text">$120K</div>
+        <div class="metric-label">Annual savings per 1,000 households on energy programs</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num" style="color:#a78bfa">12,000%</div>
+        <div class="metric-label">ROI on Growth plan for a 10K-visitor-per-month project</div>
+      </div>
+    </div>
+    <div class="case-study fade-up">
+      <div>
+        <div class="case-tag"><span class="label">Case Study</span></div>
+        <h3 class="h3" style="margin-bottom:12px">Smart Grid Energy Platform</h3>
+        <p class="body-md" style="margin-bottom:20px">A regional utility deployed QIA's SDK on their customer energy dashboard. Within 30 days, user engagement with consumption data tripled and time-of-use pricing adoption increased by 217%.</p>
+        <p class="body-md">"Users were reading the data but not acting on it. QIA told us exactly who was ready to switch plans and triggered the right message at the right second." </p>
+        <div style="margin-top:16px;font-size:13px;color:var(--gray4)">— Energy Platform Product Team</div>
+      </div>
+      <div class="case-stats stagger">
+        <div class="case-stat">
+          <div class="case-stat-num accent">28% → 74%</div>
+          <div class="case-stat-label">Dashboard engagement</div>
+        </div>
+        <div class="case-stat">
+          <div class="case-stat-num green-text">12% → 38%</div>
+          <div class="case-stat-label">Plan adoption rate</div>
+        </div>
+        <div class="case-stat">
+          <div class="case-stat-num amber-text">−18%</div>
+          <div class="case-stat-label">Peak demand reduction</div>
+        </div>
+        <div class="case-stat">
+          <div class="case-stat-num" style="color:#a78bfa">30 days</div>
+          <div class="case-stat-label">Time to measurable impact</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────── PRICING ──────────── -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="text-center fade-up">
+      <div class="label">Pricing</div>
+      <h2 class="h2" style="margin-bottom:14px">Transparent pricing.<br>Cancel anytime.</h2>
+      <p class="body-lg">Start free. Scale as you grow.</p>
+    </div>
+    <div class="pricing-toggle-wrap">
+      <span class="toggle-label">Monthly</span>
+      <button class="toggle-switch" id="billingToggle" onclick="toggleBilling()">
+        <div class="toggle-knob"></div>
+      </button>
+      <span class="toggle-label">Annual</span>
+      <span class="save-badge" id="saveBadge" style="display:none">Save 20%</span>
+    </div>
+    <div class="pricing-grid stagger">
+      <div class="pricing-card">
+        <div class="pricing-tier">Starter</div>
+        <div class="pricing-price">
+          <span class="pricing-amount" id="p1">$99</span>
+          <span class="pricing-period">/mo</span>
+        </div>
+        <p class="pricing-desc">Perfect for side projects, MVPs, and early-stage dApps getting started with intent analytics.</p>
+        <hr class="pricing-divider">
+        <div class="pricing-features">
+          <div class="pf-item"><span class="pf-check">✓</span><span>10,000 events/month</span></div>
+          <div class="pf-item"><span class="pf-check">✓</span><span>Basic intent scoring</span></div>
+          <div class="pf-item"><span class="pf-check">✓</span><span>qia-sdk.js access</span></div>
+          <div class="pf-item"><span class="pf-check">✓</span><span>REST API access</span></div>
+          <div class="pf-item"><span class="pf-check">✓</span><span>Email support</span></div>
+          <div class="pf-item"><span class="pf-cross">✗</span><span style="color:var(--gray5)">Custom scoring rules</span></div>
+          <div class="pf-item"><span class="pf-cross">✗</span><span style="color:var(--gray5)">Blockchain triggers</span></div>
+        </div>
+        <div class="pricing-cta">
+          <button class="btn btn-outline" style="width:100%" onclick="showToast('Starter plan selected! We will be in touch soon.','success')">Get Started</button>
+        </div>
+      </div>
+      <div class="pricing-card featured">
+        <div class="popular-badge">Most Popular</div>
+        <div class="pricing-tier" style="color:var(--blue3)">Growth</div>
+        <div class="pricing-price">
+          <span class="pricing-amount" id="p2">$499</span>
+          <span class="pricing-period">/mo</span>
+        </div>
+        <p class="pricing-desc">For growing dApps, energy platforms, and teams that need full intent prediction with blockchain integration.</p>
+        <hr class="pricing-divider">
+        <div class="pricing-features">
+          <div class="pf-item"><span class="pf-check">✓</span><span>100,000 events/month</span></div>
+          <div class="pf-item"><span class="pf-check">✓</span><span>Advanced intent scoring</span></div>
+          <div class="pf-item"><span class="pf-check">✓</span><span>Custom scoring rules</span></div>
+          <div class="pf-item"><span class="pf-check">✓</span><span>Blockchain triggers (EVM)</span></div>
+          <div class="pf-item"><span class="pf-check">✓</span><span>Batch event tracking</span></div>
+          <div class="pf-item"><span class="pf-check">✓</span><span>Analytics dashboard</span></div>
+          <div class="pf-item"><span class="pf-check">✓</span><span>Priority support</span></div>
+        </div>
+        <div class="pricing-cta">
+          <button class="btn btn-primary" style="width:100%" onclick="showToast('Growth plan selected! We will be in touch soon.','success')">Get Started</button>
+        </div>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-tier">Enterprise</div>
+        <div class="pricing-price">
+          <span class="pricing-amount" style="font-size:32px">Custom</span>
+        </div>
+        <p class="pricing-desc">For large platforms, utilities, and companies needing white-label solutions, SLAs, and dedicated support.</p>
+        <hr class="pricing-divider">
+        <div class="pricing-features">
+          <div class="pf-item"><span class="pf-check">✓</span><span>Unlimited events</span></div>
+          <div class="pf-item"><span class="pf-check">✓</span><span>White-label SDK</span></div>
+          <div class="pf-item"><span class="pf-check">✓</span><span>On-premise deployment</span></div>
+          <div class="pf-item"><span class="pf-check">✓</span><span>Custom SLA (99.9% uptime)</span></div>
+          <div class="pf-item"><span class="pf-check">✓</span><span>Multi-chain support</span></div>
+          <div class="pf-item"><span class="pf-check">✓</span><span>Dedicated success manager</span></div>
+          <div class="pf-item"><span class="pf-check">✓</span><span>SSO & team management</span></div>
+        </div>
+        <div class="pricing-cta">
+          <button class="btn btn-outline" style="width:100%" onclick="showToast('Enterprise inquiry sent! We will reach out within 24 hours.','success')">Contact Sales</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────── FAQ ──────────── -->
+<section class="section-sm" id="faq">
+  <div class="container">
+    <div class="text-center fade-up">
+      <div class="label">FAQ</div>
+      <h2 class="h2">Common questions</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-q">How is QIA different from Mixpanel or Amplitude? <span class="faq-arrow">⌄</span></button>
+        <div class="faq-a">Mixpanel and Amplitude analyze what happened yesterday and surface it in a dashboard for humans to review. QIA predicts what will happen in the next 30–60 seconds and triggers automated actions without human intervention. The key difference: timing and automation. We act during the decision window — they act after the window closes.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-q">Do I need ML models or historical data to start? <span class="faq-arrow">⌄</span></button>
+        <div class="faq-a">No. QIA uses a weighted behavioral scoring model grounded in UX psychology research — not machine learning. It works from your very first event with zero training data. As you collect data over time, you can optionally tune the scoring thresholds via our API to improve accuracy for your specific use case.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-q">How does the blockchain trigger actually work? <span class="faq-arrow">⌄</span></button>
+        <div class="faq-a">When a user's intent score exceeds 75, our backend calls the QIAIncentive.sol smart contract's triggerIncentive() function via ethers.js. The contract emits an IncentiveTriggered event on-chain with the user's wallet address, a timestamp, and an incrementing incentive ID. This creates a permanent, immutable record that can be queried by your frontend, used for airdrops, or verified by auditors.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-q">How long does integration take? <span class="faq-arrow">⌄</span></button>
+        <div class="faq-a">Most teams are tracking events within 5 minutes. Step 1: Include qia-sdk.js in your HTML. Step 2: Call QIA.init() with your API key. Step 3: Call QIA.track() wherever you want to capture behavior. The full documentation covers advanced use cases like scroll tracking, wallet delay measurement, and hover hesitation patterns.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-q">Which blockchains are supported? <span class="faq-arrow">⌄</span></button>
+        <div class="faq-a">Our smart contract is EVM-compatible and can be deployed to any Ethereum-compatible network — Ethereum mainnet, Sepolia testnet, Polygon, Arbitrum, Avalanche, Base, and more. You configure your target network via the RPC_URL environment variable in the backend. Multi-chain support (triggering across multiple chains simultaneously) is on our roadmap for Q4 2026.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-q">Is the data stored or shared? <span class="faq-arrow">⌄</span></button>
+        <div class="faq-a">In the current MVP, event data is processed in-memory and not persisted beyond the scoring calculation. We do not store behavioral data beyond what's needed to compute the score. In the production roadmap, event logs are stored per-customer in isolated databases, never shared, and fully deletable. GDPR and privacy compliance tooling is on our Q3 2026 roadmap.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────── CTA ──────────── -->
+<section class="section" id="cta">
+  <div class="cta-glow"></div>
+  <div class="container cta-inner text-center">
+    <div class="fade-up">
+      <div class="label">Get Started</div>
+      <h2 class="h2" style="margin-bottom:16px">Stop losing users at the<br>moment of decision</h2>
+      <p class="body-lg" style="max-width:560px;margin:0 auto">The best time to act is before the user decides to leave. QIA gives you that window.</p>
+      <div class="cta-actions">
+        <a href="#demo-section" class="btn btn-primary btn-lg">Try the Live Demo →</a>
+        <a href="https://github.com/Sarthak6279/qia-intent-engine" target="_blank" class="btn btn-outline btn-lg">View Source Code</a>
+      </div>
+      <p class="cta-note">Free to try · No credit card · Open source SDK</p>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────── FOOTER ──────────── -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="nav-logo" style="margin-bottom:14px">
+          <div class="nav-logo-mark">Q</div>
+          QIA
+        </div>
+        <p class="footer-brand-desc">Intent Analytics Engine. Predicting user behavior in real-time for Web3 dApps and smart infrastructure platforms.</p>
+        <div class="social-links">
+          <a href="https://github.com/Sarthak6279/qia-intent-engine" target="_blank" class="social-btn" title="GitHub"><i data-lucide="github" style="width:16px;height:16px"></i></a>
+          <a href="#" class="social-btn" title="Twitter"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+          <a href="#" class="social-btn" title="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Product</div>
+        <div class="footer-links">
+          <a href="#how" class="footer-link">How it works</a>
+          <a href="#features" class="footer-link">Features</a>
+          <a href="#demo-section" class="footer-link">Live Demo</a>
+          <a href="#pricing" class="footer-link">Pricing</a>
+          <a href="#results" class="footer-link">Case Studies</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Developers</div>
+        <div class="footer-links">
+          <a href="https://github.com/Sarthak6279/qia-intent-engine" target="_blank" class="footer-link">GitHub</a>
+          <a href="#" class="footer-link">API Reference</a>
+          <a href="#" class="footer-link">SDK Docs</a>
+          <a href="#" class="footer-link">Smart Contract</a>
+          <a href="#faq" class="footer-link">FAQ</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <div class="footer-links">
+          <a href="#" class="footer-link">About</a>
+          <a href="#" class="footer-link">Blog</a>
+          <a href="#" class="footer-link">Contact</a>
+          <a href="#" class="footer-link">Privacy Policy</a>
+          <a href="#" class="footer-link">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 QIA Intent Analytics. Built by Team ALPHAGOR for UBIC Blockchain Hackathon 2026.</p>
+      <div class="footer-badges">
+        <span class="footer-badge">UBIC Blockchain</span>
+        <span class="footer-badge">MIT License</span>
+        <span class="footer-badge">Node.js + Solidity</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ──────────── TOAST ──────────── -->
+<div id="toast"></div>
+
+<script>
+// ══════════════════════════════════════
+// NAV SCROLL EFFECT
+// ══════════════════════════════════════
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// ══════════════════════════════════════
+// MOBILE MENU
+// ══════════════════════════════════════
+document.getElementById('hamburgerBtn').addEventListener('click', () => {
+  document.getElementById('hamburgerBtn').classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+});
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburgerBtn').classList.remove('open');
+}
+
+// ══════════════════════════════════════
+// SCROLL ANIMATIONS
+// ══════════════════════════════════════
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.fade-up,.fade-left,.fade-right,.stagger').forEach(el => observer.observe(el));
+
+// ══════════════════════════════════════════════
+// LIVE DEMO LOGIC — ENHANCED WITH 3 TRIGGERS
+// ══════════════════════════════════════════════
+let selectedEvent = 'scroll_depth';
+let annualBilling = false;
+
+document.getElementById('delaySlider').addEventListener('input', function() {
+  document.getElementById('delayVal').textContent = this.value;
+});
+document.getElementById('scrollSlider').addEventListener('input', function() {
+  document.getElementById('scrollVal').textContent = this.value;
+});
+
+document.getElementById('eventSelect').addEventListener('change', function() {
+  selectedEvent = this.value;
+});
+
+function updateDemo() {
+  // Optional: Real-time preview updates
+}
+
+function runDemo() {
+  // Get three trigger behavior inputs
+  const delay       = parseFloat(document.getElementById('delaySlider').value);
+  const scrollDepth = parseInt(document.getElementById('scrollSlider').value);
+  const event       = selectedEvent;
+
+  // Initialize score from three triggers
+  let score = 0, p1 = 0, p2 = 0, p3 = 0;
+
+  // TEMPORAL: Connection delay > 3s = +30 pts
+  if (delay > 3) { 
+    p1 = Math.min(30, Math.round((delay - 3) / 7 * 30)); 
+    score += p1; 
+  }
+
+  // SPATIAL: Scroll depth > 70% = +25 pts
+  if (scrollDepth > 70) { 
+    p2 = Math.min(25, Math.round((scrollDepth - 70) / 30 * 25)); 
+    score += p2; 
+  }
+
+  // INTERACTION: Event type contribution
+  let eventPoints = 0;
+  if (event === 'scroll_depth') eventPoints = 15;
+  else if (event === 'wallet_connect') eventPoints = 25;
+  else if (event === 'confirm_hesitation') eventPoints = 36;
+  p3 = eventPoints;
+  score += p3;
+
+  // Apply confidence multiplier (more signals = higher confidence)
+  let signals = (p1 > 0 ? 1 : 0) + (p2 > 0 ? 1 : 0) + (p3 > 0 ? 1 : 0);
+  const multiplier = signals === 3 ? 1.15 : signals === 2 ? 1.08 : 1.0;
+  score = Math.min(Math.round(score * multiplier), 100);
+
+  const trigger = score >= 75;
+  const confidence = signals === 3 ? 'HIGH' : (score >= 50 && signals >= 2) ? 'MEDIUM' : 'LOW';
+
+  // Update score circle with animation
+  const circle = document.getElementById('scoreCircle');
+  const numEl  = document.getElementById('demoScoreNum');
+  numEl.textContent = score;
+
+  if (trigger) {
+    circle.style.borderColor = 'var(--green)';
+    circle.style.boxShadow = '0 0 32px rgba(52,168,83,0.3), inset 0 0 24px rgba(52,168,83,0.1)';
+    numEl.style.color = 'var(--green)';
+    document.getElementById('demoStatusBadge').textContent = '✓ High Intent — TRIGGER';
+    document.getElementById('demoStatusBadge').style.background = 'rgba(16,185,129,.15)';
+    document.getElementById('demoStatusBadge').style.borderColor = 'rgba(16,185,129,.4)';
+    document.getElementById('demoStatusBadge').style.color = 'var(--green2)';
+  } else if (score >= 50) {
+    circle.style.borderColor = 'var(--amber)';
+    circle.style.boxShadow = '0 0 24px rgba(245,158,11,0.2), inset 0 0 20px rgba(245,158,11,0.05)';
+    numEl.style.color = 'var(--amber)';
+    document.getElementById('demoStatusBadge').textContent = '⚠ Medium Intent — MONITOR';
+    document.getElementById('demoStatusBadge').style.background = 'rgba(245,158,11,.15)';
+    document.getElementById('demoStatusBadge').style.borderColor = 'rgba(245,158,11,.3)';
+    document.getElementById('demoStatusBadge').style.color = 'var(--amber)';
+  } else {
+    circle.style.borderColor = 'rgba(255,255,255,.1)';
+    circle.style.boxShadow = 'none';
+    numEl.style.color = 'var(--gray3)';
+    document.getElementById('demoStatusBadge').textContent = '○ Low Intent';
+    document.getElementById('demoStatusBadge').style.background = '';
+    document.getElementById('demoStatusBadge').style.borderColor = 'rgba(255,255,255,0.1)';
+    document.getElementById('demoStatusBadge').style.color = 'var(--gray4)';
+  }
+
+  // Update breakdown bars
+  document.getElementById('sbar1').style.width = (p1/30*100)+'%';
+  document.getElementById('sbar2').style.width = (p2/25*100)+'%';
+  document.getElementById('sbar3').style.width = (p3/36*100)+'%';
+  document.getElementById('spts1').textContent = '+'+p1;
+  document.getElementById('spts2').textContent = '+'+p2;
+  document.getElementById('spts3').textContent = '+'+p3;
+
+  // Recommendation based on signals
+  const recs = {
+    high:   `High intent detected (${signals}/3 signals) — trigger conversion immediately via webhook or smart contract`,
+    medium: `Moderate intent (${signals}/3 signals) — consider retargeting with incentive or nudge`,
+    low:    `Low intent detected — nurture with educational content first`,
+  };
+  const r = trigger ? 'high' : score >= 50 ? 'medium' : 'low';
+  document.getElementById('demoRecommendation').textContent = recs[r];
+
+  // Action result box
+  const box = document.getElementById('resultBox');
+  const title = document.getElementById('rabTitle');
+  const desc  = document.getElementById('rabDesc');
+  const txEl  = document.getElementById('rabTx');
+
+  if (trigger) {
+    box.style.background = 'rgba(16,185,129,.12)';
+    box.style.borderColor = 'rgba(16,185,129,.25)';
+    title.innerHTML = '<span style="color:var(--green)">✓ Blockchain Trigger Executed</span>';
+    desc.innerHTML  = `Intent score <strong style="color:var(--white)">${score}/100</strong> exceeded threshold of 75. Smart contract method called. On-chain event emitted. ${signals} behavioral triggers confirmed.`;
+    const fakeTx = '0x' + Array.from({length:40},()=>'0123456789abcdef'[Math.floor(Math.random()*16)]).join('');
+    txEl.textContent = 'Transaction: ' + fakeTx;
+    showToast(`🎯 Intent score ${score}/100 — Blockchain trigger fired! (${signals} signals detected)`, 'success');
+  } else {
+    box.style.background = 'var(--bg-elevated)';
+    box.style.borderColor = 'var(--border)';
+    title.textContent = score > 0 ? `Score: ${score}/100 — Below threshold` : 'No signals detected';
+    desc.textContent  = score > 0
+      ? `Need ${75-score} more points to reach trigger threshold. Keep adjusting the three trigger behaviors (Temporal, Spatial, Interaction).`
+      : 'Adjust temporal delay (>3s), spatial scroll depth (>70%), or select an interaction event to trigger analysis.';
+    txEl.textContent  = '';
+  }
+}
+
+// ══════════════════════════════════════
+// FAQ ACCORDION
+// ══════════════════════════════════════
+function toggleFaq(item) {
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// ══════════════════════════════════════
+// PRICING TOGGLE
+// ══════════════════════════════════════
+const prices = { monthly: ['$99','$499'], annual: ['$79','$399'] };
+function toggleBilling() {
+  annualBilling = !annualBilling;
+  const toggle = document.getElementById('billingToggle');
+  const badge  = document.getElementById('saveBadge');
+  toggle.classList.toggle('on', annualBilling);
+  badge.style.display = annualBilling ? 'inline-block' : 'none';
+  const p = annualBilling ? prices.annual : prices.monthly;
+  document.getElementById('p1').textContent = p[0];
+  document.getElementById('p2').textContent = p[1];
+}
+
+// ══════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════
+let toastTimer;
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show ' + (type === 'success' ? 'success' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.className = '', 3500);
+}
+
+// ══════════════════════════════════════
+// ACTIVE NAV LINK ON SCROLL
+// ══════════════════════════════════════
+const sections = document.querySelectorAll('section[id], div[id="trust"]');
+const navLinks  = document.querySelectorAll('.nav-link');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) cur = s.id;
+  });
+  navLinks.forEach(l => {
+    l.classList.toggle('active', l.getAttribute('href') === '#' + cur);
+  });
+}, { passive: true });
+// Initialize Lucide Icons on Load
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+});
+
+// ══════════════════════════════════════
+// CUSTOM CURSOR
+// ══════════════════════════════════════
+(function() {
+  if (window.innerWidth < 768) return;
+  const dot = document.createElement('div');
+  dot.className = 'cursor-dot';
+  const ring = document.createElement('div');
+  ring.className = 'cursor-ring';
+  document.body.appendChild(dot);
+  document.body.appendChild(ring);
+
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.15;
+    ry += (my - ry) * 0.15;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, [onclick], input, select, textarea, .interactive').forEach(el => {
+    el.addEventListener('mouseenter', () => { dot.classList.add('hovering'); ring.classList.add('hovering'); });
+    el.addEventListener('mouseleave', () => { dot.classList.remove('hovering'); ring.classList.remove('hovering'); });
+  });
+})();
+
+// ══════════════════════════════════════
+// ENHANCED SCROLL REVEAL OBSERVER
+// ══════════════════════════════════════
+(function() {
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-reveal').forEach(el => revealObs.observe(el));
+})();
+</script>
+</body>
+</html>
